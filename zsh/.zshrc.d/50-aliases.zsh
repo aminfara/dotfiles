@@ -5,7 +5,7 @@ alias fpath="tr ':' '\\n' <<< \$FPATH"
 
 if (( $+commands[btop] )); then
   alias top="btop -p 0"
-  alias psb="btop -p 1"
+  alias psi="btop -p 1"
 fi
 
 if (( $+commands[eza] )); then

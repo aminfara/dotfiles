@@ -47,7 +47,7 @@ Use `bat` instead of `cat` for a better file viewing experience with syntax high
 
 ### ps alternatives
 
-try `psb` and `top` for better process viewing experience
+try `psi` and `top` for better process viewing experience
 
 ### grep alternatives
 
