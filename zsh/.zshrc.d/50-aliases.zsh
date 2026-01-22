@@ -9,8 +9,12 @@ if (( $+commands[btop] )); then
 fi
 
 if (( $+commands[eza] )); then
-  alias ls="eza --group-directories-first --icons"
-  alias l="ll -aa"
+  compdef _eza ls
+  alias ls="eza"
+  alias lsi="eza --group-directories-first --icons"
+  alias ll="lsi -l"
+  alias la="lsi -al"
+  alias l="lsi -aal"
 fi
 
 if (( $+functions[z] )); then
