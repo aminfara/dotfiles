@@ -12,3 +12,8 @@ if (( $+commands[eza] )); then
   alias ls="eza --group-directories-first --icons"
   alias l="ll -aa"
 fi
+
+if (( $+functions[z] )); then
+  alias cd="z"
+  alias cdi="zi"
+fi
