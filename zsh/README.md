@@ -41,7 +41,7 @@ You can also use `-` to go back to the previous directory. `..` and `...` are al
 
 Use `yazi` to navigate and file operations with a terminal UI.
 
-## cat alternatives
+### cat alternatives
 
 Use `bat` instead of `cat` for a better file viewing experience with syntax highlighting and git integration.
 
@@ -49,7 +49,7 @@ Use `bat` instead of `cat` for a better file viewing experience with syntax high
 
 try `psb` and `top` for better process viewing experience
 
-## grep alternatives
+### grep alternatives
 
 Use `rg` (ripgrep) instead of `grep` for a faster and more feature-rich searching experience.
 
