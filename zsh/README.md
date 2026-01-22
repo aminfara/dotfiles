@@ -17,4 +17,8 @@ echo ". $ZDOTDIR/.zshenv" > ~/.zshenv
 
 # start a new zsh session
 zsh
+
+# in the new shell, run the install script to install other tools
+# open a new terminal and enjoy!
+install-cli-tools
 ```
