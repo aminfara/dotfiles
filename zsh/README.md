@@ -67,6 +67,10 @@ Also use `lazygit` for a terminal UI for git commands.
 
 The prompt is powered by [Starship](https://starship.rs/), a minimal, blazing-fast, and infinitely customizable prompt for any shell.
 
+### mise integration
+
+The shell is integrated with [mise](https://https://mise.jdx.dev/) for managing your languages and development environments.
+
 ## Other stuff
 
 Look at `.zshrc.d/50-aliases.zsh` and `.zfunctions/install-cli-tools` for other aliases and tools installed.

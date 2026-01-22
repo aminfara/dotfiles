@@ -9,6 +9,7 @@ brew-ingrade \
   fd \
   jq \
   lazygit \
+  mise \
   ripgrep \
   starship \
   watch \
