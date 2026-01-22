@@ -8,5 +8,6 @@ brew-ingrade \
   eza \
   fd \
   starship \
+  zoxide \
 
 install-fzf
