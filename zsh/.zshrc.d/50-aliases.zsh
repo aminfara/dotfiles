@@ -3,10 +3,10 @@ alias c="clear"
 alias path="tr ':' '\\n' <<< \$PATH"
 alias fpath="tr ':' '\\n' <<< \$FPATH"
 
-# Process related aliases
-alias psg="pgrep -ilf"
-alias psgg="ps aux | grep -v grep | grep"
-alias pst="pstree -g3 -s"
+if (( $+commands[btop] )); then
+  alias top="btop -p 0"
+  alias psb="btop -p 1"
+fi
 
 if (( $+commands[eza] )); then
   alias ls="eza --group-directories-first --icons"

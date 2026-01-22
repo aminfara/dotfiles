@@ -4,6 +4,7 @@
 
 brew-ingrade \
   bat \
+  btop \
   eza \
   fd \
   starship \
