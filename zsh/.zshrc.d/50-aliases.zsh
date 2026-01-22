@@ -7,3 +7,7 @@ alias fpath="tr ':' '\\n' <<< \$FPATH"
 alias psg="pgrep -ilf"
 alias psgg="ps aux | grep -v grep | grep"
 alias pst="pstree -g3 -s"
+
+if (( $+commands[eza] )); then
+  alias ls="eza --group-directories-first --icons"
+fi

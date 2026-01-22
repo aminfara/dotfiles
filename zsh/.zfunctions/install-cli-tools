@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+(( $+commands[brew] )) || return 1
+
+brew-ingrade \
+  bat \
+  eza \
+  fd \
+  starship \
+
+install-fzf
