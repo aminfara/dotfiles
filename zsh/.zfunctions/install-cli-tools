@@ -7,7 +7,14 @@ brew-ingrade \
   btop \
   eza \
   fd \
+  jq \
+  lazygit \
+  ripgrep \
   starship \
+  watch \
+  wget \
+  yazi \
+  yq \
   zoxide \
 
 install-fzf
