@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+(( $+commands[brew] )) || return 1
+
+brew-ingrade \
+  font-hack-nerd-font \
+  font-symbols-only-nerd-font \
+
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
