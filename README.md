@@ -22,6 +22,7 @@ ln -s ~/.dotfiles/ghostty $XDG_CONFIG_HOME/ghostty
 ln -s ~/.dotfiles/btop $XDG_CONFIG_HOME/btop
 ln -s ~/.dotfiles/eza $XDG_CONFIG_HOME/eza
 ln -s ~/.dotfiles/lazygit $XDG_CONFIG_HOME/lazygit
+ln -s ~/.dotfiles/gitconfig-global ~/.gitconfig
 
 # in the new shell, run the install script to install other tools
 # open a new terminal and enjoy!

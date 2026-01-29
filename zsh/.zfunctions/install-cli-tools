@@ -7,6 +7,7 @@ brew-ingrade \
   btop \
   eza \
   fd \
+  git-delta \
   jq \
   lazygit \
   mise \
