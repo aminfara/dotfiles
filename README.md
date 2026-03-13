@@ -23,6 +23,7 @@ ln -s ~/.dotfiles/btop $XDG_CONFIG_HOME/btop
 ln -s ~/.dotfiles/eza $XDG_CONFIG_HOME/eza
 ln -s ~/.dotfiles/lazygit $XDG_CONFIG_HOME/lazygit
 ln -s ~/.dotfiles/tmux $XDG_CONFIG_HOME/tmux
+ln -s ~/.dotfiles/opencode $XDG_CONFIG_HOME/opencode
 ln -s ~/.dotfiles/gitconfig-global ~/.gitconfig
 
 # in the new shell, run the install script to install other tools

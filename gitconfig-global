@@ -14,7 +14,7 @@
 [delta]
     features = catppuccin-mocha
     navigate = true       # use n/N to jump between hunks
-    side-by-side = true   # optional: side-by-side diffs
+    # side-by-side = true   # optional: side-by-side diffs
     line-numbers = true
 
 [pull]
