@@ -13,6 +13,7 @@ brew-ingrade \
   mise \
   ripgrep \
   starship \
+  tmux \
   watch \
   wget \
   yazi \
