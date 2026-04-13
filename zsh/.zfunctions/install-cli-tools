@@ -8,6 +8,7 @@ brew-ingrade \
   eza \
   fd \
   git-delta \
+  gpg \
   jq \
   lazygit \
   mise \
