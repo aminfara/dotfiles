@@ -1,0 +1,7 @@
+ide/
+logs/
+mcp-oauth-config/
+session-state/
+
+command-history-state.json
+config.json

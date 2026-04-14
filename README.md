@@ -24,7 +24,8 @@ ln -s ~/.dotfiles/eza $XDG_CONFIG_HOME/eza
 ln -s ~/.dotfiles/lazygit $XDG_CONFIG_HOME/lazygit
 ln -s ~/.dotfiles/tmux $XDG_CONFIG_HOME/tmux
 ln -s ~/.dotfiles/opencode $XDG_CONFIG_HOME/opencode
-ln -s ~/.dotfiles/gitconfig-global ~/.gitconfig
+ln -s ~/.dotfiles/copilot $HOME/.copilot
+ln -s ~/.dotfiles/gitconfig-global $HOME/.gitconfig
 
 # in the new shell, run the install script to install other tools
 # open a new terminal and enjoy!
