@@ -162,6 +162,24 @@
       "skillFolderHash": "",
       "installedAt": "2026-04-16T01:02:19.377Z",
       "updatedAt": "2026-04-16T01:11:23.911Z"
+    },
+    "security-review": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/affaan-m/everything-claude-code.git",
+      "skillPath": "skills/security-review/SKILL.md",
+      "skillFolderHash": "a124c004b30c50ed8d959c15734dc2a16bce3e62",
+      "installedAt": "2026-04-16T10:46:37.381Z",
+      "updatedAt": "2026-04-16T10:46:37.381Z"
+    },
+    "owasp-security": {
+      "source": "hoodini/ai-agents-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/hoodini/ai-agents-skills.git",
+      "skillPath": "skills/owasp-security/SKILL.md",
+      "skillFolderHash": "f11087a4777f9cfe290c4429e536b36f04e1e9df",
+      "installedAt": "2026-04-16T10:52:45.752Z",
+      "updatedAt": "2026-04-16T10:52:45.752Z"
     }
   },
   "dismissed": {
