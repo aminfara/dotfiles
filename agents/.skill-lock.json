@@ -180,6 +180,51 @@
       "skillFolderHash": "f11087a4777f9cfe290c4429e536b36f04e1e9df",
       "installedAt": "2026-04-16T10:52:45.752Z",
       "updatedAt": "2026-04-16T10:52:45.752Z"
+    },
+    "building-native-ui": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/expo/skills.git",
+      "skillPath": "plugins/expo/skills/building-native-ui/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-16T11:53:33.947Z",
+      "updatedAt": "2026-04-16T11:53:33.947Z"
+    },
+    "expo-api-routes": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/expo/skills.git",
+      "skillPath": "plugins/expo/skills/expo-api-routes/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-16T11:53:34.025Z",
+      "updatedAt": "2026-04-16T11:53:34.025Z"
+    },
+    "expo-tailwind-setup": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/expo/skills.git",
+      "skillPath": "plugins/expo/skills/expo-tailwind-setup/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-16T11:53:34.106Z",
+      "updatedAt": "2026-04-16T11:53:34.106Z"
+    },
+    "native-data-fetching": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/expo/skills.git",
+      "skillPath": "plugins/expo/skills/native-data-fetching/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-16T11:53:34.189Z",
+      "updatedAt": "2026-04-16T11:53:34.189Z"
+    },
+    "use-dom": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/expo/skills.git",
+      "skillPath": "plugins/expo/skills/use-dom/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-16T11:53:34.274Z",
+      "updatedAt": "2026-04-16T11:53:34.274Z"
     }
   },
   "dismissed": {
