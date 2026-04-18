@@ -29,7 +29,7 @@
     },
     "task-scheduler": {
       "type": "stdio",
-      "command": "python3",
+      "command": "/opt/homebrew/bin/python3",
       "args": ["${userHome}/.copilot/mcp/task_scheduler_mcp.py"]
     }
   }

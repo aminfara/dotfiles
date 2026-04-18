@@ -152,12 +152,11 @@ def handle_tools_list(msg: dict) -> None:
                 {
                     "name": "request_next_task",
                     "description": (
-                        "Pick the next pending task from the TODO file (plain text, no extension) "
-                        "in the given root_path. Tasks previously marked as in-progress (prefixed "
-                        "with `~ `) are assumed complete and moved to the DONE file. The next "
-                        "un-marked task is prefixed with `~ ` in TODO and returned as plain text. "
-                        "Returns `~` when no pending tasks remain — but the list is DYNAMIC so the "
-                        "caller should keep polling."
+                        "Returns the next pending task as a plain string. Each call also "
+                        "implicitly marks the previously returned task as complete. "
+                        "The task list is DYNAMIC and may change between calls; callers must "
+                        "keep polling. Returns the literal string `~` when no task is "
+                        "currently available — this is a transient state, not a terminal one."
                     ),
                     "inputSchema": {
                         "type": "object",
@@ -165,8 +164,9 @@ def handle_tools_list(msg: dict) -> None:
                             "root_path": {
                                 "type": "string",
                                 "description": (
-                                    "Absolute path to the project root where the TODO and "
-                                    "DONE files live (plain text, no extension)."
+                                    "Absolute path to the project root for which tasks should "
+                                    "be scheduled. Treat this as an opaque identifier — it is "
+                                    "passed through to the scheduler's internal storage."
                                 )
                             }
                         },
