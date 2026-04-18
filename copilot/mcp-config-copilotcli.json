@@ -32,7 +32,7 @@
     },
     "task-scheduler": {
       "command": "python3",
-      "args": ["${userHome}/.config/copilot/mcp/task_scheduler_mcp.py"],
+      "args": ["${userHome}/.copilot/mcp/task_scheduler_mcp.py"],
       "tools": ["*"]
     }
   }
