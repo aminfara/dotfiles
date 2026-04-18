@@ -4,16 +4,17 @@ description: "Use when: defining product vision, writing user stories, creating 
 model: ["Gemini 3.1 Pro (Preview) (copilot)", "Claude Sonnet 4.6 (copilot)"]
 tools:
   [
-    read,
-    edit,
-    search,
-    web,
+    "edit",
+    "read",
+    "search",
+    "web",
+    "todos",
+    "skill",
     "drawio/*",
     "io.github.tavily-ai/tavily-mcp/*",
-    mermaidchart.vscode-mermaid-chart/get_syntax_docs,
-    mermaidchart.vscode-mermaid-chart/mermaid-diagram-validator,
-    mermaidchart.vscode-mermaid-chart/mermaid-diagram-preview,
-    todo,
+    "mermaidchart.vscode-mermaid-chart/get_syntax_docs",
+    "mermaidchart.vscode-mermaid-chart/mermaid-diagram-validator",
+    "mermaidchart.vscode-mermaid-chart/mermaid-diagram-preview",
   ]
 argument-hint: "Describe the feature, user problem, or product question, research market trends"
 agents: []
@@ -180,3 +181,18 @@ For wireframes that show screen flow and information layout, use draw.io via `mc
 6. **Backlog is a living document.** Priorities shift as you learn. Re-evaluate regularly. Kill requirements that no longer matter.
 
 7. **Communicate tradeoffs.** When speed and quality conflict, when scope and timeline compete — surface the tradeoff, recommend a path, and let the stakeholder decide.
+## Web Research & Todo Tracking
+
+You have access to two cross-cutting tools you should use proactively:
+
+### `web` — look things up before guessing
+- Use `#web/fetch` whenever you would otherwise rely on memory for: third-party API behaviour, library version differences, platform-specific quirks, error messages you don't immediately recognise, or recent changes to a tool/framework.
+- Your training data is stale. The web is not. **Look up before assuming.**
+- Cite the URL in your output when a decision was driven by something you fetched.
+- Prefer official docs, vendor changelogs, and reputable references over forum posts.
+
+### `todos` — track multi-step work
+- For any task with **3 or more distinct steps**, create a todo list at the start so you (and the user) can see progress.
+- Mark each item as `in_progress` when you start it and `completed` the moment it's done — don't batch updates.
+- Skip the todo list for trivially short or single-step tasks.
+- Update the list as the task evolves; don't leave stale items.

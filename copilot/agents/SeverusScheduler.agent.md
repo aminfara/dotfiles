@@ -2,7 +2,7 @@
 name: Severus
 description: "Use when: you want an autonomous, unstoppable task runner that drives Olie task-after-task via the task-scheduler MCP tool, with a 10-minute idle timeout."
 model: ["Claude Sonnet 4.6 (copilot)", "GPT-5 (copilot)"]
-tools: ["agent", "mcp"]
+tools: ["agent", "task-scheduler/*"]
 argument-hint: "Provide the absolute path to the project root. Severus passes that path verbatim to the MCP tool. Example: /home/user/my-project"
 agents: ["Olie"]
 ---
