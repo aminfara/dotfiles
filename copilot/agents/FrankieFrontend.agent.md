@@ -5,6 +5,10 @@ model: ["Claude Sonnet 4.6 (copilot)"]
 tools:
   [
     "execute",
+    "terminal",
+    "shell",
+    "bash",
+    "runCommands",
     "read",
     "edit",
     "search",
@@ -204,3 +208,33 @@ A component must not contain raw `fetch` calls. An API client must not import co
 - React Testing Library (web). Vitest as test runner. iOS Simulator MCP for native interaction testing.
 - Mock API calls at the HTTP boundary with MSW or equivalent — not by mocking internal modules.
 - Write tests before implementation (TDD) for all tasks except pure visual/styling changes.
+
+## Terminal Access — Non-Interactive Only
+
+You have **full terminal access** (`execute`, `terminal`, `shell`, `bash`, `runCommands`). Use it freely — but you must **never block on an interactive prompt**. The agent host has no human to answer prompts; a hanging command stalls the entire pipeline.
+
+### Hard rules
+
+- **Always run commands in non-interactive mode.** Pass the appropriate `--yes` / `--non-interactive` / `-y` / `--no-input` flag.
+- **Never run `vim`, `nano`, `less`, `more`, `top`, `htop`, `man`,** or any other TUI / pager.
+- Pipe pagers to `cat` and set `PAGER=cat` / `GIT_PAGER=cat`.
+- For dev servers / watchers (`npm run dev`, `vite`, `expo start`, `next dev`, `metro`), **always run them in the background** with `&` and redirect output to a log file: `npm run dev > dev.log 2>&1 &`. Never run a foreground watcher.
+- For installs: `npm install` / `npm ci` / `yarn install --non-interactive` / `pnpm install`. **Never run `npm init`, `npx create-*`, `expo init` without `--yes`/`-y`/`--template`.**
+- For React Native scaffolding: pass `--template`, `--name`, and `--yes` so prompts are skipped.
+- For `git`: always use `git commit -m "..."`; configure `user.email` / `user.name` before committing.
+- If a command **must** prompt, pipe answers in: `yes | command` or `printf 'y\ny\n' | command`.
+- If a command unexpectedly hangs, **kill it** and retry with explicit flags rather than waiting.
+
+### Quick reference
+
+| Risky | Safe |
+|---|---|
+| `npm run dev` | `npm run dev > dev.log 2>&1 &` |
+| `npm init` | `npm init -y` |
+| `npx create-react-app foo` | `npx --yes create-react-app foo --template typescript` |
+| `expo start` | `npx expo start --non-interactive > expo.log 2>&1 &` |
+| `git commit` | `git commit -m "msg"` |
+| `git log` | `git --no-pager log` |
+| `node` | `node -e "..."` or run a script file |
+
+**Rule of thumb:** if a command would normally show a prompt or open a UI, find the flag that suppresses it, or pipe input in. Never wait for a human.
