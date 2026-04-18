@@ -4,14 +4,16 @@ Task Scheduler MCP Server
 =========================
 Provides the `request_next_task` tool for Severus Scheduler.
 
-- Reads TODO.md from the root path provided by the client.
+- Reads TODO from the root path provided by the client.
 - Marks the first non-~ task with `~ ` (in-progress / now being processed).
-- Moves previously `~ `-marked tasks to DONE.md (they are assumed complete
+- Moves previously `~ `-marked tasks to DONE (they are assumed complete
   because the tool was called again, meaning the last task is done).
 - Returns the task text, or `~` when there are no more pending tasks.
 
-The list is intentionally DYNAMIC — new tasks may appear in TODO.md at any
+The list is intentionally DYNAMIC — new tasks may appear in TODO at any
 time.  The tool therefore never caches state; it always reads fresh from disk.
+
+Note: TODO and DONE are plain text files, not Markdown. No `.md` extension.
 """
 
 import json
@@ -43,22 +45,22 @@ def request_next_task(root_path: str) -> str:
     """
     Core logic for the request_next_task MCP tool.
 
-    1. Open TODO.md from root_path.
+    1. Open TODO from root_path.
     2. Collect every line that starts with `~ ` → these are tasks that were
        in-progress during the *previous* call and are now considered DONE.
-       Move them to DONE.md.
+       Move them to DONE.
     3. Find the first line that does NOT start with `~ ` and is not blank /
        a heading / a comment — that is the next task.
-    4. Mark it with `~ ` in TODO.md and return its text.
+    4. Mark it with `~ ` in TODO and return its text.
     5. If no pending task is found, return `~`.
     """
-    todo_path = os.path.join(root_path, "TODO.md")
-    done_path = os.path.join(root_path, "DONE.md")
+    todo_path = os.path.join(root_path, "TODO")
+    done_path = os.path.join(root_path, "DONE")
 
     lines = read_lines(todo_path)
 
     # ------------------------------------------------------------------ #
-    # Step 1 – harvest previously in-progress lines and move them to DONE #
+    # Step 1 – harvest previously in-progress lines and move them to DONE  #
     # ------------------------------------------------------------------ #
     in_progress: list[str] = []
     remaining: list[str] = []
@@ -75,15 +77,15 @@ def request_next_task(root_path: str) -> str:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         done_block: list[str] = []
         for task in in_progress:
-            done_block.append(f"- [x] {task}  <!-- completed ~{timestamp} -->\n")
+            # Plain text format — TODO and DONE are not markdown files.
+            done_block.append(f"[{timestamp}] {task}\n")
         append_lines(done_path, done_block)
 
     # ------------------------------------------------------------------ #
     # Step 2 – find the next pending task                                 #
     # A pending task is any non-blank line that:                          #
     #   • does NOT start with `~ `  (not in-progress / done)             #
-    #   • does NOT start with `#`   (not a heading)                      #
-    #   • does NOT start with `<!--` (not an HTML comment)               #
+    #   • does NOT start with `#`   (treated as a comment line)          #
     # ------------------------------------------------------------------ #
     next_task_index: int = -1
     next_task_text: str = ""
@@ -94,15 +96,13 @@ def request_next_task(root_path: str) -> str:
             continue
         if stripped.startswith("#"):
             continue
-        if stripped.startswith("<!--"):
-            continue
         # This is a pending task
         next_task_index = i
         next_task_text = stripped
         break
 
     # ------------------------------------------------------------------ #
-    # Step 3 – mark the chosen task as in-progress and save TODO.md      #
+    # Step 3 – mark the chosen task as in-progress and save TODO         #
     # ------------------------------------------------------------------ #
     if next_task_index == -1:
         # No pending tasks — but list is DYNAMIC, so we just signal ~
@@ -113,8 +113,8 @@ def request_next_task(root_path: str) -> str:
     remaining[next_task_index] = "~ " + remaining[next_task_index].lstrip()
     write_lines(todo_path, remaining)
 
-    # Strip leading list markers (-, *, [ ], [x]) for a clean prompt
-    clean_task = re.sub(r"^[-*]\s+(\[[ x]\]\s+)?", "", next_task_text).strip()
+    # Strip leading list markers (-, *) if present, for a clean prompt
+    clean_task = re.sub(r"^[-*]\s+", "", next_task_text).strip()
 
     return clean_task
 
@@ -152,12 +152,12 @@ def handle_tools_list(msg: dict) -> None:
                 {
                     "name": "request_next_task",
                     "description": (
-                        "Pick the next pending task from TODO.md in the given root_path. "
-                        "Tasks previously marked as in-progress (prefixed with `~ `) are "
-                        "assumed complete and moved to DONE.md. The next un-marked task is "
-                        "prefixed with `~ ` and returned as plain text. "
-                        "Returns `~` when no pending tasks remain — but the list is DYNAMIC "
-                        "so the caller should keep polling."
+                        "Pick the next pending task from the TODO file (plain text, no extension) "
+                        "in the given root_path. Tasks previously marked as in-progress (prefixed "
+                        "with `~ `) are assumed complete and moved to the DONE file. The next "
+                        "un-marked task is prefixed with `~ ` in TODO and returned as plain text. "
+                        "Returns `~` when no pending tasks remain — but the list is DYNAMIC so the "
+                        "caller should keep polling."
                     ),
                     "inputSchema": {
                         "type": "object",
@@ -165,8 +165,8 @@ def handle_tools_list(msg: dict) -> None:
                             "root_path": {
                                 "type": "string",
                                 "description": (
-                                    "Absolute path to the project root where TODO.md "
-                                    "and DONE.md live."
+                                    "Absolute path to the project root where the TODO and "
+                                    "DONE files live (plain text, no extension)."
                                 )
                             }
                         },

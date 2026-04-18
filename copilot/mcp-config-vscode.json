@@ -1,0 +1,36 @@
+{
+  "servers": {
+    "tavily": {
+      "type": "http",
+      "url": "https://mcp.tavily.com/mcp/"
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp/oauth"
+    },
+    "gh-grep": {
+      "type": "http",
+      "url": "https://mcp.grep.app"
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "ios-simulator": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "ios-simulator-mcp"]
+    },
+    "drawio": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@drawio/mcp"]
+    },
+    "task-scheduler": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["${userHome}/.config/copilot/mcp/task_scheduler_mcp.py"]
+    }
+  }
+}
