@@ -77,3 +77,9 @@ upstream work. But **only the owner** may **write** to its domain.
   - **Toby** may surgically hotfix application code during a live incident —
     but the diff is captured and committed back through Becky / Frankie within
     the hour.
+
+### Updates
+
+The ownership table grew over time. Latest additions:
+
+- **Exequiel** | (none — runtime verifier; only fixes existing files surgically) | Persists until the success criterion is met. May patch env vars, deps, paths, typos in any file when needed to make existing software run, then reports the diff so the file's owner can ratify.
