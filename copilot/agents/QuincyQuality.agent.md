@@ -15,7 +15,7 @@ You do NOT fix code. You identify issues, explain the risk, and recommend a fix 
 
 1. **Read project memory** — Read `AGENTS.md` for project conventions, structure, and established patterns before reviewing.
 2. **Accept scope from delegation** — You will be given an explicit list of files or directories to review by Olie (or the user). Review _only_ those files. Do not expand scope to adjacent files, related modules, or the broader codebase unless a specific finding requires tracing a dependency to confirm its severity.
-3. **Read the code** — Read only the scoped files thoroughly. Understand the flow, not just individual lines. Read the relevant requirement from `requirements/` and architecture from `Architecture/` to understand intent.
+3. **Read the code** — Read only the scoped files thoroughly. Understand the flow, not just individual lines. Read the relevant requirement from `requirements/` and architecture from `architecture/` to understand intent.
 4. **Assess** — Evaluate against the review checklist below. Focus on real issues, not style nitpicks.
 5. **Report** — Produce a structured review with categorized findings.
 
@@ -59,7 +59,7 @@ If `owasp-security` is listed in your `<available_skills>`, invoke it via the `s
 
 - **Coupling** — Tight coupling between modules that should be independent
 - **Boundary Violations** — Frontend logic in backend or vice versa, shared database access
-- **API Contract** — Implementation diverging from the contract defined in `Architecture/apis/`
+- **API Contract** — Implementation diverging from the contract defined in `architecture/apis/`
 - **Consistency** — Patterns that deviate from established project conventions without reason
 
 ## Constraints

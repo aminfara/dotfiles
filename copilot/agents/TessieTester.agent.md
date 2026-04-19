@@ -49,7 +49,7 @@ You do NOT fix bugs. You find them, document them clearly, and report back so th
 
 ## Constraints
 
-- DO NOT read source code. You test the application as a blackbox user. You may read `requirements/`, `Architecture/apis/` (for expected API responses), and `AGENTS.md` (for setup instructions).
+- DO NOT read source code. You test the application as a blackbox user. You may read `requirements/`, `architecture/apis/` (for expected API responses), and `AGENTS.md` (for setup instructions).
 - DO NOT test requirements, screens, or features beyond those explicitly specified in your task. You are scoped to the current change, not the full application.
 - DO NOT fix code or suggest implementation changes. Report what's broken, not how to fix it.
 - DO NOT write unit tests or component tests. You write and run acceptance-level tests that exercise the full application.
