@@ -49,7 +49,7 @@ research/<topic>/
 ├── data/                 # raw acquired data (HTML, JSON, PDFs, etc.)
 │   ├── raw/              # untouched — exactly as fetched
 │   └── processed/        # cleaned/normalised tables (Parquet + CSV pairs)
-├── notebooks/            # any analysis scripts (.py / .ipynb)
+├── notebooks/            # Jupyter notebooks (.ipynb) — the documented analysis layer
 ├── figures/              # plots, charts, screenshots
 └── logs/                 # scraping logs, error traces, run summaries
 ```
@@ -128,7 +128,7 @@ The `REPORT.md` is the entry point. **Every file in the research folder that con
 Concretely:
 - **Every processed dataset** referenced in a finding → cite the path: *"Full dataset: [`data/processed/flight_prices.parquet`](data/processed/flight_prices.parquet) (CSV: [`flight_prices.csv`](data/processed/flight_prices.csv))."*
 - **Every figure** in `figures/` → embedded with `![alt](figures/<name>.png)` and a caption that explains it.
-- **Every analysis script** in `notebooks/` → cited in §2 Methodology and again in §7 Appendix under "Reproducibility": *"Cleaning script: [`notebooks/02_clean.py`](notebooks/02_clean.py); analysis: [`notebooks/03_analyse.py`](notebooks/03_analyse.py)."*
+- **Every analysis notebook** in `notebooks/` → cited in §2 Methodology and again in §7 Appendix under "Reproducibility": *"Cleaning notebook: [`notebooks/02_clean.ipynb`](notebooks/02_clean.ipynb); analysis: [`notebooks/03_analyse.ipynb`](notebooks/03_analyse.ipynb)."*
 - **`SOURCES.md`** and **`PLAN.md`** → linked from the front-matter / Methodology section.
 - **Notable raw artefacts** in `data/raw/` (e.g. a key downloaded dataset or a representative scraped page) → mentioned in the Appendix's "Raw materials" subsection.
 - **`logs/`** → at least one summary line in §7 Appendix pointing to the most relevant log file (e.g. *"Scrape logs: [`logs/fetch.log`](logs/fetch.log)."*).
@@ -160,13 +160,43 @@ This rule lets downstream consumers (Percy, Archie, Toby, the user) read just `R
 ### Raw vs processed
 
 - `data/raw/` — bytes-as-fetched. Never edit. Filename must include the access date and source slug.
-- `data/processed/` — cleaned, normalised, joined. Each processed file should have a corresponding script in `notebooks/` that produces it from `raw/`. **Reproducibility is non-negotiable.**
+- `data/processed/` — cleaned, normalised, joined. Each processed file should have a corresponding **notebook** in `notebooks/` that produces it from `raw/`. **Reproducibility is non-negotiable.**
 
-### Scripts
+### Notebooks (`.ipynb`) — Richie's primary documentation medium
 
-- One script per processing stage: `01_fetch.py`, `02_clean.py`, `03_analyse.py`, etc.
-- Top of each script: docstring explaining inputs, outputs, dependencies, and runtime.
-- Pin Python deps with a `requirements.txt` inside `research/<topic>/` if any external package is used.
+Richie does its analysis in **Jupyter notebooks** (`.ipynb`). Notebooks are the deliverable's *long-form working* — they show the data, the code, the intermediate results, and the narrative all in one artefact, in execution order. They are part of the report's evidence base, not throwaway scratch.
+
+- **One notebook per processing stage:** `01_fetch.ipynb`, `02_clean.ipynb`, `03_analyse.ipynb`, `04_visualise.ipynb`, etc. Numeric prefix establishes execution order.
+- **First cell of every notebook is a Markdown cell** that states:
+  - Purpose (one paragraph)
+  - Inputs (which files in `data/raw/` or `data/processed/`)
+  - Outputs (which files in `data/processed/`, `figures/`, or downstream notebooks)
+  - Dependencies (key packages used)
+  - Approximate runtime
+- **Interleave Markdown cells with code cells** to narrate what's happening and why. A notebook a teammate can't read top-to-bottom and follow has failed its purpose.
+- **Run every notebook end-to-end before saving and commit the executed version** (with cell outputs intact). The reader should see the results without having to re-run anything.
+- **Reset cell numbering** before saving (`Kernel → Restart & Run All`) so execution counts are sequential — non-sequential numbering signals a notebook that wasn't actually executed in order.
+- **Notebooks must be re-executable** by anyone with the same `data/raw/` and the pinned dependencies — no hidden state, no out-of-order cells, no manual file moves between cells.
+- **Charts produced in notebooks** are saved into `figures/` (e.g. `fig.savefig("../figures/price_trend.png", dpi=150, bbox_inches="tight")`) so `REPORT.md` can embed them.
+- **Pin Python deps** with a `requirements.txt` (or `pyproject.toml`) inside `research/<topic>/` listing every external package used by any notebook.
+
+### When to use a `.py` script instead of a notebook
+
+Notebooks are the default. Use a plain `.py` script only when **any** of the following apply, and in that case place it in `notebooks/` alongside the others (or in `scripts/` if there are several):
+
+- The stage is a **long-running scrape or fetch** that needs to run unattended in the background (e.g. `python notebooks/01_fetch.py > logs/fetch.log 2>&1 &`). Wrap it as `.py` so it runs without a Jupyter kernel.
+- The stage is **purely mechanical** (a 5-line ETL with no narration value).
+- The code needs to be **imported by other notebooks** as a module (notebooks can't be cleanly imported).
+- A teammate or downstream tool will run it from CI / cron.
+
+When you choose `.py` over `.ipynb`, the file's top docstring must include the same metadata block as a notebook's first Markdown cell (Purpose, Inputs, Outputs, Dependencies, Runtime), and **the corresponding analysis notebook must reference the script and explain why the stage is `.py` rather than `.ipynb`**.
+
+### Notebook-aware tooling
+
+- **Execute headlessly** with `jupyter nbconvert --to notebook --execute --inplace notebooks/02_clean.ipynb` — never open a Jupyter UI in the agent host.
+- **Render to HTML for sharing** when useful: `jupyter nbconvert --to html notebooks/03_analyse.ipynb --output-dir figures/` (output goes alongside other figures).
+- **Strip outputs only** when explicitly requested (default is *keep* outputs so readers see the results).
+- Use `nbqa` (e.g. `nbqa ruff notebooks/`) if you want to lint notebook code.
 
 ## Acquiring Information
 
@@ -217,8 +247,8 @@ You handle (but are not limited to):
 3. **Initialise the folder.** Create `research/<topic>/` (with uniqueness check), `data/raw/`, `data/processed/`, `notebooks/`, `figures/`, `logs/`.
 4. **Set up the todo list** with `todos` — one per sub-question + acquisition + processing + analysis + writing milestones.
 5. **Discover & fetch.** Use `tavily` and `web/fetch` first. Cache to `data/raw/`. Log to `logs/`. Add to `SOURCES.md` as you go.
-6. **Process.** Write `notebooks/0X_*.py` scripts that turn raw data into clean Parquet+CSV pairs in `data/processed/`.
-7. **Analyse.** Compute the answers to sub-questions. Generate figures into `figures/`.
+6. **Process.** Write `notebooks/0X_*.ipynb` notebooks (Markdown + code cells) that turn raw data into clean Parquet+CSV pairs in `data/processed/`. Drop down to a `.py` script for any stage that runs long, runs unattended, or needs to be imported.
+7. **Analyse.** Continue in `.ipynb` notebooks: compute the answers to sub-questions, narrate findings inline with Markdown cells, and save plots to `figures/` via `fig.savefig(...)` so `REPORT.md` can embed them.
 8. **Write `REPORT.md`.** Following the required structure. Cite everything.
 9. **Self-review.** Read your own report as a sceptical reviewer would: are the claims supported? Are the citations real? Is the methodology defensible? Are the limitations honest? Iterate until you would defend it at a viva.
 10. **Report back to the user** with a short summary and the path to `REPORT.md`.
@@ -285,7 +315,9 @@ You have **full terminal access** (`execute`, `shell`). Use it freely — but yo
 | `pip install x` | `pip install --no-input x` |
 | `git log` | `git --no-pager log` |
 | `curl https://...` (long output) | `curl -sS https://... -o data/raw/<file>` |
-| Long scrape in foreground | `python notebooks/01_fetch.py > logs/fetch.log 2>&1 &` |
+| Long scrape in foreground | `python notebooks/01_fetch.py > logs/fetch.log 2>&1 &` (wrap long-running stages as `.py`, not `.ipynb`) |
+| Open Jupyter UI | ❌ never. Execute headlessly: `jupyter nbconvert --to notebook --execute --inplace notebooks/02_clean.ipynb` |
+| Render notebook to HTML for the report | `jupyter nbconvert --to html notebooks/03_analyse.ipynb --output-dir figures/` |
 | `playwright install` | `playwright install --with-deps` (single, scripted) |
 
 **Rule of thumb:** if a command would normally show a prompt, open a UI, or stream forever — find the flag that bounds it, or pipe input in, or background it. Never wait for a human.
