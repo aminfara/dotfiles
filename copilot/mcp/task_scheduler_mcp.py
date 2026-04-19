@@ -17,11 +17,37 @@ Note: TODO and DONE are plain text files, not Markdown. No `.md` extension.
 """
 
 import json
-import sys
 import os
 import re
+import sys
+import time
 from datetime import datetime
+from pathlib import Path
+from typing import Optional
 
+
+# ---------------------------------------------------------------------------- #
+#  Configuration                                                                #
+# ---------------------------------------------------------------------------- #
+
+#: Number of seconds to wait before re-reading TODO when the first read came up
+#: empty. Producers may add a task during this window; the retry catches it.
+POLITE_LOOK_SECONDS: int = 3 * 60
+
+#: Number of additional read attempts after the first one returns empty.
+#: 1 = read, sleep POLITE_LOOK_SECONDS, read once more, then give up.
+DEFAULT_RETRIES: int = 1
+
+#: Sentinel returned when the task list is genuinely empty.
+EMPTY_SENTINEL: str = "~"
+
+#: Prefix used in the TODO file to mark a task as in-progress.
+IN_PROGRESS_PREFIX: str = "~ "
+
+
+# ---------------------------------------------------------------------------- #
+#  File helpers                                                                 #
+# ---------------------------------------------------------------------------- #
 
 def read_lines(path: str) -> list[str]:
     """Read a file and return its lines, or [] if it doesn't exist."""
@@ -41,77 +67,75 @@ def append_lines(path: str, lines: list[str]) -> None:
         f.writelines(lines)
 
 
-def request_next_task(root_path: str) -> str:
+def request_next_task(root_path: str, retries: int = DEFAULT_RETRIES) -> str:
     """
     Core logic for the request_next_task MCP tool.
 
     1. Open TODO from root_path.
-    2. Collect every line that starts with `~ ` → these are tasks that were
+    2. Collect every line that starts with `~ ` -> these are tasks that were
        in-progress during the *previous* call and are now considered DONE.
        Move them to DONE.
     3. Find the first line that does NOT start with `~ ` and is not blank /
-       a heading / a comment — that is the next task.
+       a heading / a comment - that is the next task.
     4. Mark it with `~ ` in TODO and return its text.
-    5. If no pending task is found, return `~`.
+    5. If no pending task is found AND we still have retries left, sleep for
+       a "polite second look" window and try again. The list is DYNAMIC so
+       producers may drop a task in during that window.
+    6. If no pending task is found and no retries remain, return `~`.
+
+    `retries` is the number of *additional* attempts to make after the first
+    one comes up empty. Default 1 = at most one polite re-read before
+    surrendering with `~`.
     """
     todo_path = os.path.join(root_path, "TODO")
     done_path = os.path.join(root_path, "DONE")
+    polite_look_seconds = POLITE_LOOK_SECONDS
 
-    lines = read_lines(todo_path)
+    attempts_left = retries + 1  # initial attempt + N retries
 
-    # ------------------------------------------------------------------ #
-    # Step 1 – harvest previously in-progress lines and move them to DONE  #
-    # ------------------------------------------------------------------ #
-    in_progress: list[str] = []
-    remaining: list[str] = []
+    while attempts_left > 0:
+        attempts_left -= 1
+        lines = read_lines(todo_path)
 
-    for line in lines:
-        if line.startswith("~ "):
-            # Strip the marker so DONE.md holds clean task text
-            clean = line[2:].rstrip("\n")
-            in_progress.append(clean)
-        else:
-            remaining.append(line)
+        # Step 1 - harvest previously in-progress lines and move them to DONE.
+        # On retries this is a no-op (we already cleared them on attempt 1).
+        in_progress: list[str] = []
+        remaining: list[str] = []
+        for line in lines:
+            if line.startswith(IN_PROGRESS_PREFIX):
+                in_progress.append(line[len(IN_PROGRESS_PREFIX):].rstrip("\n"))
+            else:
+                remaining.append(line)
 
-    if in_progress:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        done_block: list[str] = []
-        for task in in_progress:
-            # Plain text format — TODO and DONE are not markdown files.
-            done_block.append(f"[{timestamp}] {task}\n")
-        append_lines(done_path, done_block)
+        if in_progress:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            append_lines(done_path, [f"[{timestamp}] {task}\n" for task in in_progress])
 
-    # ------------------------------------------------------------------ #
-    # Step 2 – find the next pending task                                 #
-    # A pending task is any non-blank line that:                          #
-    #   • does NOT start with `~ `  (not in-progress / done)             #
-    #   • does NOT start with `#`   (treated as a comment line)          #
-    # ------------------------------------------------------------------ #
-    next_task_index: int = -1
-    next_task_text: str = ""
+        # Step 2 - find the next pending task.
+        next_task_index: int = -1
+        next_task_text: str = ""
+        for i, line in enumerate(remaining):
+            stripped = line.strip()
+            if not stripped or stripped.startswith("#"):
+                continue
+            next_task_index = i
+            next_task_text = stripped
+            break
 
-    for i, line in enumerate(remaining):
-        stripped = line.strip()
-        if not stripped:
-            continue
-        if stripped.startswith("#"):
-            continue
-        # This is a pending task
-        next_task_index = i
-        next_task_text = stripped
-        break
+        # Step 3 - mark and return if found.
+        if next_task_index != -1:
+            remaining[next_task_index] = IN_PROGRESS_PREFIX + remaining[next_task_index].lstrip()
+            write_lines(todo_path, remaining)
+            break  # exit loop with next_task_text set; trailing block returns it
 
-    # ------------------------------------------------------------------ #
-    # Step 3 – mark the chosen task as in-progress and save TODO         #
-    # ------------------------------------------------------------------ #
-    if next_task_index == -1:
-        # No pending tasks — but list is DYNAMIC, so we just signal ~
+        # Nothing found this attempt. Save the cleaned TODO.
         write_lines(todo_path, remaining)
-        return "~"
 
-    # Prepend `~ ` to mark as in-progress
-    remaining[next_task_index] = "~ " + remaining[next_task_index].lstrip()
-    write_lines(todo_path, remaining)
+        # If more attempts remain, sleep before the next try.
+        if attempts_left > 0:
+            time.sleep(polite_look_seconds)
+        else:
+            return EMPTY_SENTINEL
 
     # Strip leading list markers (-, *) if present, for a clean prompt
     clean_task = re.sub(r"^[-*]\s+", "", next_task_text).strip()
