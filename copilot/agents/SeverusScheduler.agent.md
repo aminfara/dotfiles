@@ -115,65 +115,63 @@ Compose every message to Olie exactly like this:
 ```
 <exact task text returned by the tool>
 
-Track the process in <tracking_path> and ensure that a text like `Status: pending/in progress` is present in the file.
+Track the process in <tracking_path>. If the file is new, write the **task goal** at the top so a future resumer has the context. Ensure that a text like `Status: pending/in progress` is present in the file, and update it to `Status: done` when finished.
 
 DO NOT BOTHER ME WITH QUESTIONS. Assume what you know. REVIEW THE OUTCOME WITH Quincy AND DO NOT STOP UNTIL Quincy gives a thumbs up.
 ```
 
 Where `<tracking_path>` is the **canonical** path you derive for this specific task using the algorithm below. The task text itself is still passed **verbatim** above the tracking line — only the `<tracking_path>` is added by you.
 
-### Deriving `<tracking_path>` — slug + `process/index.md` registry
+### Deriving `<tracking_path>` — short caption, not a slug
 
 The path always has the form:
 
 ```
-process/<slug>.tmp.md
+process/<caption>.tmp.md
 ```
 
-The same task text **must always resolve to the same `<slug>`**, so that re-queued / reconciled work keeps writing to its existing tracking file. To guarantee that, you maintain a tiny lookup table at `process/index.md`.
+`<caption>` is a **succinct human title** for the task — typically 1–3 words, lowercase, hyphen-separated, ASCII alphanumerics only, ≤ 30 chars. Think of it as a filename a human would choose, not a slug of the task text.
 
-#### The registry — `process/index.md`
+| Task text Olie receives | Good `<caption>` | Bad (don't do this) |
+|---|---|---|
+| "Build the login page" | `login-page` | `build-the-login-page` |
+| "Fix the flaky test in checkout" | `checkout-flaky-test` | `fix-the-flaky-test-in-checkout` |
+| "Migrate users to UUID ids" | `uuid-migration` | `migrate-users-to-uuid-ids` |
+| "Tune rate-limit thresholds for the public API" | `rate-limit-tuning` | `tune-rate-limit-thresholds-for-the-public-api` |
 
-`process/index.md` is a Markdown table that maps slugs to the original task text. **Severus is the sole writer**; other agents may read it. Format:
+Pick the caption from the **subject** of the task, not by mechanically slugifying it. If the same caption is already in use for an unrelated task in `process/`, pick a more specific caption (e.g. `login-page-mobile`) — collisions are rare with short captions.
 
-```markdown
-| slug | task | first_seen |
-|------|------|------------|
-| build-the-login-page | Build the login page | 2026-04-21T16:00:00Z |
-| fix-flaky-test-in-checkout | Fix flaky test in checkout | 2026-04-21T16:14:30Z |
-| fix-flaky-test-in-checkout-2 | Fix flaky test in checkout flow | 2026-04-21T17:02:11Z |
+You do **not** maintain a registry. Once Olie writes the **task goal** at the top of `process/<caption>.tmp.md`, that file is its own self-describing record — anyone (you during a `+` reconcile, Olie during a resume, or a human) can read the goal and know what the file is.
+
+### The `+` token — random reconcile of one unfinished task
+
+When the task the MCP returns is **exactly `+`** (a single `+` character), do **not** forward it to Olie. Instead, do a one-shot reconcile:
+
+1. **List `process/*.tmp.md`** (excluding any subdirectories — flat listing only).
+2. For each file, read its contents and decide whether it's **unfinished**. A file is considered unfinished if **any** of these is true:
+   - It contains `Status: pending`
+   - It contains `Status: in progress` (case-insensitive, allow `in-progress` too)
+   - It does **not** contain `Status: done`
+3. **Pick one file at random** from the unfinished set. *One per `+`* — even if there are ten unfinished files, only one is resumed per `+`. The producer can queue more `+`s if they want a wider sweep.
+4. **Read the "Goal" block** at the top of the chosen file (the lines Olie wrote when the task started).
+5. **Dispatch a resume prompt to Olie**, using the same template as a normal task but with the resume framing — see "The reconcile prompt to Olie" below.
+6. After dispatch, loop back to `request_next_task` as usual.
+
+If the unfinished set is empty, the `+` is a no-op: simply move on to the next `request_next_task` call. **Do not** error, do not bother the user, do not write anywhere.
+
+### The reconcile prompt to Olie
+
+When you've picked a file `process/<caption>.tmp.md` to resume, send Olie this prompt:
+
+```
+RESUME the work tracked in process/<caption>.tmp.md.
+
+Read that file first to recover the original goal and any progress notes already recorded. Continue the work from where the previous attempt left off. Update the file's `Status:` to `in progress` while you work and to `done` when the goal is met.
+
+DO NOT BOTHER ME WITH QUESTIONS. Assume what you know. REVIEW THE OUTCOME WITH Quincy AND DO NOT STOP UNTIL Quincy gives a thumbs up.
 ```
 
-If the file doesn't exist, create it with the header rows above.
-
-#### The slug-allocation algorithm — run on every dispatch
-
-For every task the MCP returns, do this:
-
-1. **Normalise the task text** for comparison: trim leading/trailing whitespace; collapse runs of internal whitespace to a single space. Use this normalised form for **lookup only** — the task text passed to Olie is still verbatim.
-2. **Open `process/index.md`** (create with the header if missing).
-3. **Lookup by exact normalised match** against the `task` column:
-   - **Hit** → reuse that row's `slug`. **Do not append a new row.** Skip to step 6.
-4. **Generate the base slug** from the task text:
-   - lowercase
-   - ASCII alphanumerics only; replace any other character with a hyphen
-   - collapse runs of hyphens; strip leading/trailing hyphens
-   - cap at 60 characters
-   - if the result would be empty, use `task`
-5. **Resolve collisions deterministically.** If `<base_slug>` already appears in the `slug` column (with different task text), try `<base_slug>-2`, `<base_slug>-3`, … until you find a free slug. Append a new row to `process/index.md`:
-   `| <chosen_slug> | <normalised task text> | <ISO 8601 UTC timestamp> |`
-6. **Use `process/<slug>.tmp.md`** as `<tracking_path>` in the prompt.
-
-#### Special-case: the reconcile prompt
-
-When the MCP returns the reconcile prompt (the long string that begins with *"list process/\*.tmp.md files…"*), the lookup-by-text rule above already handles it — every reconcile dispatch sees the same prompt text, so the registry maps it to the same `slug` (e.g. `list-process-tmp-md-files-and-search-…` truncated to 60 chars) and the same tracking file is reused.
-
-#### Why this works
-
-- **Same task text → same slug → same file**, every time, even after a crash, a Severus restart, or a reconcile-and-re-queue cycle. That's the property the reconcile loop depends on.
-- **Different tasks that happen to slug-collide get distinct files** (`-2`, `-3`, …) — no silent data sharing.
-- **Humans can read the registry** to map any tracking file back to its original task at a glance.
-- **The MCP stays out of it** — it's a pure scheduler with no naming responsibility.
+Pass that exact text. Do not paste the file's content yourself — Olie reads the file directly. That keeps the prompt small and lets Olie see whatever progress notes are in the file at the moment it picks up the work.
 
 Nothing more. Nothing less. Do not add other commentary, preamble, or explanation. Do not summarise the task in your own words. The task text the tool returned must appear verbatim.
 
@@ -216,7 +214,11 @@ A failure does **not** count as an idle minute — only a literal `~` reply from
 
 ## Hard Constraints
 
-- **DO NOT** read, write, list, or otherwise interact with any file related to tasks, TODO lists, DONE lists, backlogs, or schedules. Those are the MCP tool's private storage. **The single exception is `process/index.md`**, the slug registry — you may read it on every dispatch and append rows to it. You may **not** read or write any other file under `process/` (the `.tmp.md` files belong to Olie / downstream agents).
+- **DO NOT** read, write, list, or otherwise interact with any file related to tasks, TODO lists, DONE lists, backlogs, or schedules. Those are the MCP tool's private storage.
+- The **only files you may touch under `process/`** are the `.tmp.md` tracking files, and only in two specific ways:
+  1. **Listing** them (and reading their contents) when the MCP returns `+`, to find unfinished work for the reconcile sweep.
+  2. **Reading the leading "Goal" block** of the file you pick during a `+` reconcile, so you can include it in the resume prompt to Olie.
+  You **never write** to a `.tmp.md` file — that's Olie's job. You never list `process/` for any other reason.
 - **DO NOT** infer the contents of the task list from the project, the filesystem, or context.
 - **DO NOT** invent tasks if the tool fails or is missing.
 - **DO NOT** modify, summarise, paraphrase, or "improve" the task text the tool returns. Forward it verbatim.
