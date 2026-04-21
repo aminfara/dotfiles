@@ -4,16 +4,17 @@ Task Scheduler MCP Server
 =========================
 Provides the `request_next_task` tool for Severus Scheduler.
 
-- Reads TODO from the root path provided by the client.
+- Reads `process/TODO` from the root path provided by the client.
 - Marks the first non-~ task with `~ ` (in-progress / now being processed).
-- Moves previously `~ `-marked tasks to DONE (they are assumed complete
+- Moves previously `~ `-marked tasks to `process/DONE` (they are assumed complete
   because the tool was called again, meaning the last task is done).
 - Returns the task text, or `~` when there are no more pending tasks.
 
 The list is intentionally DYNAMIC — new tasks may appear in TODO at any
 time.  The tool therefore never caches state; it always reads fresh from disk.
 
-Note: TODO and DONE are plain text files, not Markdown. No `.md` extension.
+Note: TODO and DONE are plain text files (no `.md` extension), located
+under `process/` next to the per-task tracking files Severus maintains.
 """
 
 import json
@@ -43,6 +44,10 @@ EMPTY_SENTINEL: str = "~"
 
 #: Prefix used in the TODO file to mark a task as in-progress.
 IN_PROGRESS_PREFIX: str = "~ "
+
+#: Subdirectory (relative to the root path) where TODO and DONE live alongside
+#: the per-task tracking files. The directory is created on demand.
+PROCESS_DIR: str = "process"
 
 #: Special task token. When the next pending TODO line is exactly this single
 #: character, the tool returns RECONCILE_PROMPT instead of the literal token.
@@ -88,7 +93,7 @@ def request_next_task(root_path: str, retries: int = DEFAULT_RETRIES) -> str:
     """
     Core logic for the request_next_task MCP tool.
 
-    1. Open TODO from root_path.
+    1. Open `process/TODO` from root_path (creating `process/` if needed).
     2. Collect every line that starts with `~ ` -> these are tasks that were
        in-progress during the *previous* call and are now considered DONE.
        Move them to DONE.
@@ -104,8 +109,11 @@ def request_next_task(root_path: str, retries: int = DEFAULT_RETRIES) -> str:
     one comes up empty. Default 1 = at most one polite re-read before
     surrendering with `~`.
     """
-    todo_path = os.path.join(root_path, "TODO")
-    done_path = os.path.join(root_path, "DONE")
+    process_dir = os.path.join(root_path, PROCESS_DIR)
+    todo_path = os.path.join(process_dir, "TODO")
+    done_path = os.path.join(process_dir, "DONE")
+    # Ensure process/ exists before any write; harmless if it already does.
+    os.makedirs(process_dir, exist_ok=True)
     polite_look_seconds = POLITE_LOOK_SECONDS
 
     attempts_left = retries + 1  # initial attempt + N retries
