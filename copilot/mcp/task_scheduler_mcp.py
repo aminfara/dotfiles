@@ -60,9 +60,9 @@ RECONCILE_TOKEN: str = "+"
 #: them at the top of TODO, verbatim.
 RECONCILE_PROMPT: str = (
     "list process/*.tmp.md files and search all the ones that are not "
-    "completed. For those, add them verbatim at the beginning of the TODO "
+    "completed. For those, add them verbatim at the beginning of the process/TODO "
     "file. Remove the timestamp at the beginning. Use tools to copy verbatim "
-    "instead of just writing it yourself. Preserve the rest of the TODO file "
+    "instead of just writing it yourself. Preserve the rest of the process/TODO file "
     "untouched."
 )
 
