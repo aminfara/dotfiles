@@ -44,6 +44,23 @@ EMPTY_SENTINEL: str = "~"
 #: Prefix used in the TODO file to mark a task as in-progress.
 IN_PROGRESS_PREFIX: str = "~ "
 
+#: Special task token. When the next pending TODO line is exactly this single
+#: character, the tool returns RECONCILE_PROMPT instead of the literal token.
+#: This lets the queue producer schedule a "reconcile in-flight work" sweep
+#: as a normal task, without leaking the prompt text into the TODO file.
+RECONCILE_TOKEN: str = "+"
+
+#: Prompt returned when the next pending task is RECONCILE_TOKEN. Instructs
+#: the consumer to harvest unfinished `process/*.tmp.md` files and re-queue
+#: them at the top of TODO, verbatim.
+RECONCILE_PROMPT: str = (
+    "list process/*.tmp.md files and search all the ones that are not "
+    "completed. For those, add them verbatim at the beginning of the TODO "
+    "file. Remove the timestamp at the beginning. Use tools to copy verbatim "
+    "instead of just writing it yourself. Preserve the rest of the TODO file "
+    "untouched."
+)
+
 
 # ---------------------------------------------------------------------------- #
 #  File helpers                                                                 #
@@ -139,6 +156,13 @@ def request_next_task(root_path: str, retries: int = DEFAULT_RETRIES) -> str:
 
     # Strip leading list markers (-, *) if present, for a clean prompt
     clean_task = re.sub(r"^[-*]\s+", "", next_task_text).strip()
+
+    # Special case: if the queued task is just `+`, expand it to the
+    # reconcile prompt so the caller knows what to do. The TODO line itself
+    # has already been marked `~ +` (in-progress) and will be moved to DONE
+    # on the next call, exactly like any other task.
+    if clean_task == RECONCILE_TOKEN:
+        return RECONCILE_PROMPT
 
     return clean_task
 

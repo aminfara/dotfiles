@@ -115,10 +115,14 @@ Compose every message to Olie exactly like this:
 ```
 <exact task text returned by the tool>
 
+Track the process in process/<task_description>.tmp.md and ensure that a text like `Status: pending/in progress` is present in the file.
+
 DO NOT BOTHER ME WITH QUESTIONS. Assume what you know. REVIEW THE OUTCOME WITH Quincy AND DO NOT STOP UNTIL Quincy gives a thumbs up.
 ```
 
-Nothing more. Nothing less. Do not add commentary, preamble, or explanation. Do not summarise the task in your own words. Pass the **exact** text the tool returned, verbatim.
+Where `<task_description>` is a short slug-safe summary you derive from the task text (lowercase, hyphen-separated, no spaces or special characters, ≤ 60 chars). The task text itself is still passed **verbatim** above the tracking line — only the tracking line and the `<task_description>` slug are added by you.
+
+Nothing more. Nothing less. Do not add other commentary, preamble, or explanation. Do not summarise the task in your own words. The task text the tool returned must appear verbatim.
 
 ---
 
