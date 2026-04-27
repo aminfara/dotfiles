@@ -29,6 +29,11 @@
       "command": "npx",
       "args": ["-y", "@drawio/mcp"],
       "tools": ["*"]
+    },
+    "task-scheduler": {
+      "command": "python3",
+      "args": ["${userHome}/.copilot/mcp/task_scheduler_mcp.py"],
+      "tools": ["*"]
     }
   }
 }
