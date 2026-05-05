@@ -1,2 +1,4 @@
 skills/*
 !skills/.keep
+!skills/ts-coding
+!skills/ts-backend-setup

@@ -215,7 +215,8 @@ A component must not contain raw `fetch` calls. An API client must not import co
 ### Testing
 
 - Test observable behaviour (what users see and do) — not implementation details.
-- React Testing Library (web). Vitest as test runner. iOS Simulator MCP for native interaction testing.
+- React Testing Library. iOS Simulator MCP for native interaction testing.
+- If it is an expo project, check https://docs.expo.dev/develop/unit-testing/ for recommended unit testing tools and practices.
 - Mock API calls at the HTTP boundary with MSW or equivalent — not by mocking internal modules.
 - Write tests before implementation (TDD) for all tasks except pure visual/styling changes.
 - You cannot finish without run the server and ensuring that there are no warnings or errors (e.g. `yarn start` and search for errors)
