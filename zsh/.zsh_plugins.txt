@@ -4,27 +4,27 @@
 #
 
 # Completions
-mattmc3/ez-compinit
-zsh-users/zsh-completions kind:fpath path:src
-aloxaf/fzf-tab  # Remove if you don't use fzf
+mattmc3/ez-compinit                                   # Lazy-initialize compinit efficiently, avoiding slow startup
+zsh-users/zsh-completions kind:fpath path:src         # Extra community-maintained completion definitions
+aloxaf/fzf-tab                                        # Replace zsh's default tab menu with an fzf-powered picker
 
 # Completion styles
-belak/zsh-utils path:completion/functions kind:autoload post:compstyle_zshzoo_setup
+belak/zsh-utils path:completion/functions kind:autoload post:compstyle_zshzoo_setup  # Opinionated zstyle defaults for a clean completion UI
 
 # Keybindings
-belak/zsh-utils path:editor
+belak/zsh-utils path:editor                           # Sensible Emacs/Vim key bindings and line-editor helpers
 
 # History
-belak/zsh-utils path:history
+belak/zsh-utils path:history                          # Better history options: dedup, share across sessions, timestamps
 
 # Utilities
-zshzoo/macos conditional:is-macos
-belak/zsh-utils path:utility
-ohmyzsh/ohmyzsh path:lib/directories.zsh
-ohmyzsh/ohmyzsh path:plugins/extract
-ohmyzsh/ohmyzsh path:plugins/git
+zshzoo/macos conditional:is-macos                     # macOS-specific helpers (pbcopy, open, etc.) loaded only on macOS
+belak/zsh-utils path:utility                          # Misc utilities: colors, ls wrappers, common aliases
+ohmyzsh/ohmyzsh path:lib/directories.zsh              # Directory navigation helpers: pushd stack, cd shortcuts
+ohmyzsh/ohmyzsh path:plugins/extract                  # Universal `extract` command for any archive format
+ohmyzsh/ohmyzsh path:plugins/git                      # Git aliases and helper functions (ga, gst, glog, …)
 
 # Other Fish-like features
-zdharma-continuum/fast-syntax-highlighting  # Syntax highlighting
-zsh-users/zsh-autosuggestions               # Auto-suggestions
-zsh-users/zsh-history-substring-search      # Up/Down to search history
+zdharma-continuum/fast-syntax-highlighting            # Real-time command syntax highlighting as you type
+zsh-users/zsh-autosuggestions                         # Ghost-text suggestions from history/completion as you type
+zsh-users/zsh-history-substring-search                # Up/Down arrow searches history by the substring already typed

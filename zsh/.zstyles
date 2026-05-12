@@ -9,3 +9,10 @@
 
 # zstyle ':antidote:bundle' file ${ZDOTDIR:-~}/.zplugins.txt
 # zstyle ':antidote:bundle' use-friendly-names 'yes'
+
+#
+# zsh-autosuggestions
+#
+
+# Use history first, fall back to completion engine when history diverges
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
