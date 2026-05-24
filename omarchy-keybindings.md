@@ -31,7 +31,7 @@ This works naturally because:
 |---|---|---|
 | 1 | Arrow navigation (Home/End, word jump, window focus) | ✅ Done |
 | 2 | Easy-win app shortcuts (no conflicts) | ✅ Done |
-| 3 | Conflicting shortcuts (need WM rebinding first) | 🔲 Planned |
+| 3 | Conflicting shortcuts (need WM rebinding first) | ✅ Done |
 | 4 | App/tab switching (app switcher, workspace nav) | 🔲 Planned |
 | 5 | System shortcuts (quit, hide, minimise, lock) | 🔲 Planned |
 
@@ -104,48 +104,42 @@ These Super+key bindings were **unbound at the WM level** — pure `sendshortcut
 
 ---
 
-## Phase 3: Conflicting Shortcuts (Need WM Rebinding) 🔲
+## Phase 3: Conflicting Shortcuts ✅
 
-These Super+key bindings currently do WM actions in Omarchy. We free them up for in-app use by relocating the WM action to a `Ctrl+key` equivalent (consistent with the Ctrl=WM philosophy).
+These Super+key bindings previously did WM actions. WM actions were relocated to free up the keys for in-app use.
 
-### Proposed rebindings
+### Implemented rebindings
 
-| Key | Current WM action | Move WM action to | New in-app action | macOS equivalent |
+| Key | Old WM action | WM action moved to | New in-app action | macOS equivalent |
 |---|---|---|---|---|
-| `Super` + `S` | Toggle scratchpad | `Ctrl` + `` ` `` (backtick) | `Ctrl+S` save | `Cmd+S` |
-| `Super` + `T` | Toggle float/tile | `Ctrl+Shift` + `Space` | `Ctrl+T` new tab | `Cmd+T` |
-| `Super` + `F` | Full screen | `F11` (universal) or `Ctrl+Enter` | `Ctrl+F` find | `Cmd+F` |
-| `Super` + `W` | `killactive` (close window) | *(keep — matches macOS Cmd+W)* | Keep as close window/tab | `Cmd+W` ✓ |
-| `Super` + `,` | Dismiss notification | `Super+Ctrl` + `,` | `Ctrl+,` app preferences | `Cmd+,` |
-| `Super` + `K` | Show keybindings | `Super+Ctrl` + `K` | `Ctrl+K` add link | `Cmd+K` |
-| `Super` + `L` | Toggle workspace layout | `Ctrl+Shift` + `L` | *(leave for later)* | — |
-| `Super+Shift` + `G` | Signal launcher | Reassign Signal to Walker or `Super+Shift+Alt+G` | `Ctrl+Shift+G` find prev | `Cmd+Shift+G` |
-| `Super` + `P` | Pseudo tile | Drop or reassign to `Super+Ctrl+P` | `Ctrl+P` print/command palette | `Cmd+P` |
-| `Super` + `O` | Pop window out (float & pin) | Reassign to `Super+Ctrl+O` | `Ctrl+O` open file | `Cmd+O` |
+| `Super` + `GRAVE` | *(unbound)* | — | Cycle app windows forward | `Cmd+\`` |
+| `Super+Shift` + `GRAVE` | *(unbound)* | — | Cycle app windows backward | `Shift+Cmd+\`` |
+| `Super` + `S` | Toggle scratchpad | `Ctrl+GRAVE` | `Ctrl+S` save | `Cmd+S` |
+| `Super+Shift` + `S` | *(unbound)* | — | `Ctrl+Shift+S` save as | `Shift+Cmd+S` |
+| `Super` + `T` | Toggle float/tile | `Ctrl+Shift+Space` | `Ctrl+T` new tab (per-app aware) | `Cmd+T` |
+| `Super` + `F` | Full screen | `F11` | `Ctrl+F` find (per-app aware) | `Cmd+F` |
+| `Super` + `K` | Show keybindings | `Super+Ctrl+K` | `Ctrl+K` add link | `Cmd+K` |
+| `Super` + `,` | Dismiss notification | `Super+Ctrl+Alt+,` | `Ctrl+,` app preferences | `Cmd+,` |
+| `Super` + `O` | Pop window out (float & pin) | `Super+Alt+O` | `Ctrl+O` open file | `Cmd+O` |
+| `Super` + `P` | Pseudo tile | `Super+Ctrl+P` | `Ctrl+P` print/command palette | `Cmd+P` |
+| `Super` + `G` | Toggle window grouping | *(removed — use `Super+Alt+G`)* | `Ctrl+G` find next | `Cmd+G` |
+| `Super+Shift` + `G` | Signal launcher | Walker (`Super+Space` → signal) | `Ctrl+Shift+G` find prev | `Cmd+Shift+G` |
 
-> **`Super+F` fullscreen note:** macOS uses `Ctrl+Cmd+F` to toggle full screen in apps. In Linux/Hyprland the closest universal key is `F11`. The existing `Super+Ctrl+F` (tiled full screen) remains unchanged.
+`Super+GRAVE` and `Super+Shift+GRAVE` use a small helper script to cycle only windows of the active app on the current workspace. Hyprland's built-in `cyclenext` does not support class filtering.
 
-> **`Super+W` keep note:** macOS Cmd+W closes the front window (or tab in apps like browsers). Omarchy's `killactive` does exactly that. This is one of the cleanest cross-platform overlaps — **do not change**.
+### Terminal-aware bindings
 
-### Terminal-specific variants needed in this phase
-
-For apps where the Linux shortcut differs from the general case, add window-class-specific `sendshortcut` bindings **before** the global fallback:
+`Super+T` and `Super+F` use per-app `sendshortcut` to handle the terminal difference:
 
 | Shortcut | In terminals | In GUI apps |
 |---|---|---|
-| `Super` + `C` | `Ctrl+Shift+C` (already handled by clipboard.conf) | `Ctrl+Insert` (clipboard.conf) |
-| `Super` + `V` | `Ctrl+Shift+V` (already handled) | `Shift+Insert` (clipboard.conf) |
-| `Super` + `T` | `Ctrl+Shift+T` (new tab in terminal) | `Ctrl+T` (new tab in browser/editor) |
-| `Super` + `N` | `Ctrl+Shift+N` (new window in terminal) | `Ctrl+N` |
-| `Super` + `F` | `Ctrl+Shift+F` (find in some terminals) | `Ctrl+F` |
-| `Super` + `W` | `Ctrl+Shift+W` (close tab in terminal) | `killactive` (close window) |
+| `Super` + `T` | `Ctrl+Shift+T` (new tab) | `Ctrl+T` (new tab) |
+| `Super` + `F` | `Ctrl+Shift+F` (find) | `Ctrl+F` (find) |
 
-Use Hyprland's window-class filter in `sendshortcut`:
-```
-# Terminal class regex covers ghostty, alacritty, foot, kitty, etc.
-bindd = SUPER, T, New tab (terminal), sendshortcut, CTRL SHIFT, T, ^(ghostty|alacritty|foot|kitty|.*[Tt]erminal.*)$
-bindd = SUPER, T, New tab (apps),     sendshortcut, CTRL,       T,
-```
+`Super+C`, `Super+V`, `Super+W`, `Super+N` are already terminal-aware (handled by clipboard.conf and per-class bindings from earlier phases).
+
+> **`Super+W` note:** Omarchy's `killactive` already matches macOS `Cmd+W` — left unchanged.
+> **`Super+L` note:** Toggle workspace layout left on `Super+L` for now — deferred to a later phase.
 
 ---
 
@@ -156,7 +150,7 @@ The goal is to mirror macOS's layered switching model.
 | macOS | Meaning | Proposed Linux | Notes |
 |---|---|---|---|
 | `Cmd+Tab` | Switch between apps (app switcher) | `Super+Tab` → launcher/switcher | Currently: next workspace. Needs `hyprswitch` or Walker app-mode |
-| `Cmd+`` ` `` | Cycle windows of same app | `Super+`` ` `` → `cyclenext, same_class` | Currently unbound |
+| `Cmd+`` ` `` | Cycle windows of same app | `Super+`` ` `` / `Super+Shift+`` ` `` → helper script | Implemented in Phase 3 |
 | `Ctrl+←/→` | Switch spaces (desktops) | `Ctrl+Tab` / `Ctrl+Shift+Tab` | Currently: `Super+Tab` (next workspace). Frees up `Ctrl+Tab` which is unused at WM level |
 | `Cmd+Shift+[` / `]` | Previous / next tab in app | `Super+Shift+[` / `]` → `Ctrl+Shift+Tab` / `Ctrl+Tab` | Currently partially via clipboard.conf approach |
 | `Cmd+Opt+←/→` | Previous / next tab (browsers) | `Super+Alt+←/→` → `Ctrl+PgUp` / `Ctrl+PgDn` | Toshy's approach for browsers |
@@ -195,13 +189,16 @@ The goal is to mirror macOS's layered switching model.
 |---|---|---|
 | `Super` + `W` | Close window | `Cmd+W` ✓ |
 | `Ctrl+Alt` + `Del` | Close all windows | — |
-| `Super` + `T` | Toggle float/tile | *(Phase 3: move to free Super+T)* |
-| `Super` + `F` | Full screen | *(Phase 3: move to free Super+F)* |
+| `Ctrl` + `` ` `` | Toggle scratchpad | *(was Super+S, moved in Phase 3)* |
+| `Super` + `T` | New tab → app | `Cmd+T` ✓ |
+| `Ctrl+Shift` + `Space` | Toggle float/tile | *(was Super+T)* |
+| `Super` + `F` | Find → app | `Cmd+F` ✓ |
+| `F11` | Full screen | *(was Super+F)* |
 | `Super+Ctrl` + `F` | Tiled full screen | `Ctrl+Cmd+F` ✓ |
 | `Super+Alt` + `F` | Full width | — |
-| `Super` + `O` | Pop window out (float & pin) | *(Phase 2: move to free Super+O)* |
+| `Super+Alt` + `O` | Pop window out (float & pin) | *(was Super+O, moved in Phase 3)* |
 | `Super` + `J` | Toggle split direction | — |
-| `Super` + `P` | Pseudo tile | *(Phase 2: move to free Super+P)* |
+| `Super+Ctrl` + `P` | Pseudo tile | *(was Super+P, moved in Phase 3)* |
 | `Super` + `L` | Toggle workspace layout | *(Phase 3: move to free Super+L)* |
 
 ### Window focus (Phase 1)
@@ -209,6 +206,8 @@ The goal is to mirror macOS's layered switching model.
 | Keys | Action | macOS feel |
 |---|---|---|
 | `Ctrl` + `←/→/↑/↓` | Focus adjacent window | `Ctrl+←/→` spaces ✓ |
+| `Super` + `` ` `` | Cycle next window in current app on current workspace | `Cmd+`` ` `` ✓ |
+| `Super+Shift` + `` ` `` | Cycle previous window in current app on current workspace | `Shift+Cmd+`` ` `` ✓ |
 | `Alt` + `Tab` | Cycle next window | — |
 | `Alt+Shift` + `Tab` | Cycle previous window | — |
 
@@ -233,7 +232,7 @@ The goal is to mirror macOS's layered switching model.
 | `Super` + `Tab` | Next workspace | *(Phase 4: add Ctrl+Tab alias)* |
 | `Super+Shift` + `Tab` | Previous workspace | *(Phase 4: add Ctrl+Shift+Tab alias)* |
 | `Super+Ctrl` + `Tab` | Former workspace | — |
-| `Super` + `S` | Toggle scratchpad | *(Phase 3: move to Ctrl+`` ` ``)* |
+| `Ctrl` + `` ` `` | Toggle scratchpad | *(was Super+S, moved in Phase 3)* |
 | `Super+Alt` + `S` | Move window to scratchpad | `Cmd+H` hide ≈ |
 | `Super` + scroll | Scroll workspaces | — |
 
@@ -293,7 +292,7 @@ The goal is to mirror macOS's layered switching model.
 |---|---|---|
 | `Super` + `Esc` | System menu | — |
 | `Super+Ctrl` + `L` | Lock screen | `Ctrl+Cmd+Q` ✓ |
-| `Super` + `K` | Show keybindings | *(Phase 3: move to free Super+K)* |
+| `Super+Ctrl` + `K` | Show keybindings | *(was Super+K, moved in Phase 3)* |
 | `Super+Ctrl` + `E` | Emoji picker | `Ctrl+Cmd+Space` ✓ |
 | `Super+Ctrl` + `I` | Toggle idle lock | — |
 | `Super+Ctrl` + `N` | Toggle night light | — |
@@ -301,4 +300,4 @@ The goal is to mirror macOS's layered switching model.
 | `Super+Ctrl` + `T` | Activity monitor (btop) | — |
 | `Print` | Screenshot | `Cmd+Shift+3/4/5` ✓ |
 | `Super+Ctrl` + `X` | Toggle dictation | `Fn+D` ✓ |
-| `Super` + `,` | Dismiss notification | *(Phase 3: move to free Super+,)* |
+| `Super+Ctrl+Alt` + `,` | Dismiss notification | *(was Super+, moved in Phase 3)* |
