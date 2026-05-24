@@ -30,7 +30,7 @@ This works naturally because:
 | Phase | Topic | Status |
 |---|---|---|
 | 1 | Arrow navigation (Home/End, word jump, window focus) | ✅ Done |
-| 2 | Easy-win app shortcuts (no conflicts) | 🔲 Next |
+| 2 | Easy-win app shortcuts (no conflicts) | ✅ Done |
 | 3 | Conflicting shortcuts (need WM rebinding first) | 🔲 Planned |
 | 4 | App/tab switching (app switcher, workspace nav) | 🔲 Planned |
 | 5 | System shortcuts (quit, hide, minimise, lock) | 🔲 Planned |
@@ -71,29 +71,36 @@ This works naturally because:
 
 ---
 
-## Phase 2: Easy-Win App Shortcuts 🔲
+## Phase 2: Easy-Win App Shortcuts ✅
 
-These Super+key bindings are **currently unbound at the WM level** — pure `sendshortcut` additions with no conflicts.
+These Super+key bindings were **unbound at the WM level** — pure `sendshortcut` additions with no conflicts.
 
-### Proposed bindings
+### Implemented bindings
 
-| New binding | Sends to app | macOS equivalent | Notes |
-|---|---|---|---|
-| `Super` + `Z` | `Ctrl+Z` | `Cmd+Z` undo | Unbound in Omarchy |
-| `Super+Shift` + `Z` | `Ctrl+Shift+Z` | `Cmd+Shift+Z` redo | Unbound |
-| `Super` + `A` | `Ctrl+A` | `Cmd+A` select all | Unbound (`Super+Shift+A` = ChatGPT — unaffected) |
-| `Super` + `N` | `Ctrl+N` | `Cmd+N` new window/file | Unbound (`Super+Shift+N` = Editor — unaffected) |
-| `Super` + `R` | `Ctrl+R` | `Cmd+R` reload/refresh | Unbound |
-| `Super` + `B` | `Ctrl+B` | `Cmd+B` bold | Unbound (`Super+Shift+B` = Browser — unaffected) |
-| `Super` + `I` | `Ctrl+I` | `Cmd+I` italic | Unbound |
-| `Super` + `U` | `Ctrl+U` | `Cmd+U` underline | Unbound |
-| `Super` + `G` | `Ctrl+G` / `F3` | `Cmd+G` find next | Unbound (`Super+Shift+G` = Signal — unaffected) |
-| `Super+Shift` + `G` | `Ctrl+Shift+G` | `Cmd+Shift+G` find prev | Conflict: was Signal launcher → **move Signal** to `Super+Shift+Alt+G` or keep via walker |
-| `Super` + `D` | `Ctrl+D` | `Cmd+D` bookmark/select word | Unbound (`Super+Shift+D` = Docker — unaffected) |
-| `Super` + `P` | `Ctrl+P` | `Cmd+P` print | Currently: `pseudo` (rarely used tiling command) → move or drop |
-| `Super` + `O` | `Ctrl+O` | `Cmd+O` open file | Conflict: was "pop window out (float & pin)" → move to `Ctrl+O` or `Super+Ctrl+O` |
+| Binding | Sends to app | macOS equivalent |
+|---|---|---|
+| `Super` + `Z` | `Ctrl+Z` | `Cmd+Z` undo |
+| `Super+Shift` + `Z` | `Ctrl+Shift+Z` | `Cmd+Shift+Z` redo |
+| `Super` + `A` | `Ctrl+A` | `Cmd+A` select all |
+| `Super` + `N` | `Ctrl+N` | `Cmd+N` new window/file |
+| `Super` + `R` | `Ctrl+R` | `Cmd+R` reload/refresh |
+| `Super` + `B` | `Ctrl+B` | `Cmd+B` bold |
+| `Super` + `I` | `Ctrl+I` | `Cmd+I` italic |
+| `Super` + `U` | `Ctrl+U` | `Cmd+U` underline |
+| `Super` + `G` | `Ctrl+G` | `Cmd+G` find next |
+| `Super` + `D` | `Ctrl+D` | `Cmd+D` bookmark/select word |
+| `Super` + `Q` | `Alt+F4` | `Cmd+Q` quit app |
+| `Super` + `M` | move to scratchpad | `Cmd+M` minimise |
 
-> **Terminal note:** `sendshortcut` with no window-class filter sends to all windows. `Super+Z` → `Ctrl+Z` is safe in terminals because `Ctrl+Z` in a terminal suspends the foreground process — which is rarely desired and probably fine to leave as-is. If needed, per-app overrides can be added in a later phase.
+### Deferred to Phase 3 (conflict with WM bindings)
+
+| Binding | Conflict | Needed action |
+|---|---|---|
+| `Super+Shift` + `G` | `Super+Shift+G` = Signal launcher | Relocate Signal, then bind to `Ctrl+Shift+G` (find prev) |
+| `Super` + `P` | `Super+P` = pseudo tile | Relocate or drop pseudo tile, then bind to `Ctrl+P` (print) |
+| `Super` + `O` | `Super+O` = pop window out (float & pin) | Relocate to `Super+Ctrl+O`, then bind to `Ctrl+O` (open file) |
+
+> **Terminal note:** `Super+Z` → `Ctrl+Z` sends suspend in terminals — acceptable edge case. Per-app overrides can be added in Phase 3 if needed.
 
 ---
 
@@ -112,6 +119,9 @@ These Super+key bindings currently do WM actions in Omarchy. We free them up for
 | `Super` + `,` | Dismiss notification | `Super+Ctrl` + `,` | `Ctrl+,` app preferences | `Cmd+,` |
 | `Super` + `K` | Show keybindings | `Super+Ctrl` + `K` | `Ctrl+K` add link | `Cmd+K` |
 | `Super` + `L` | Toggle workspace layout | `Ctrl+Shift` + `L` | *(leave for later)* | — |
+| `Super+Shift` + `G` | Signal launcher | Reassign Signal to Walker or `Super+Shift+Alt+G` | `Ctrl+Shift+G` find prev | `Cmd+Shift+G` |
+| `Super` + `P` | Pseudo tile | Drop or reassign to `Super+Ctrl+P` | `Ctrl+P` print/command palette | `Cmd+P` |
+| `Super` + `O` | Pop window out (float & pin) | Reassign to `Super+Ctrl+O` | `Ctrl+O` open file | `Cmd+O` |
 
 > **`Super+F` fullscreen note:** macOS uses `Ctrl+Cmd+F` to toggle full screen in apps. In Linux/Hyprland the closest universal key is `F11`. The existing `Super+Ctrl+F` (tiled full screen) remains unchanged.
 
