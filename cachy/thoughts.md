@@ -29,37 +29,27 @@ sudo pacman -Sy --needed hyprpolkitagent
 
 notification
 
-```
-sudo pacman -Sy --asdeps --needed gvfs
-sudo pacman -Sy --needed swaync
-```
+handled by noctalia
 
 wallpaper
 
-```
-
-sudo pacman -Sy --needed awww
-
-
-```
+handled by noctalia
 
 launcher
 
-```
-sudo pacman -Sy --needed rofi
-
-```
-
-status bar
-
-```
-sudo pacman -Sy -asdeps --needed otf-font-awesome
-
-```
+handled by noctalia
 
 filemanager
 
 ```
 sudo pacman -Sy --asdeps --needed catfish gvfs tumbler thunar-volman thunar-archive-plugin thunar-media-tags-plugin
 sudo pacman -Sy thunar
+```
+
+noctalia
+
+```
+sudo pacman -Sy --asdeps --needed cliphist wlsunset
+paru -S noctalia-shell
+
 ```
