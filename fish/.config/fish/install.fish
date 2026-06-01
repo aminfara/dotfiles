@@ -1,8 +1,17 @@
 #!/usr/bin/env fish
-# Bootstrap fisher + sync plugins listed in fish_plugins. Idempotent.
-# Assumes fish ≥ 4.0 and all CLI deps are already installed.
+# Bootstrap: brew CLI tools + fisher + fish plugins. Idempotent.
 # Run: fish ~/.config/fish/install.fish
 
+# 1. CLI tools via brew.
+if functions -q install-cli-tools
+    install-cli-tools
+    or exit 1
+else
+    echo "✗ install-cli-tools function missing — is functions/ stowed correctly?"
+    exit 1
+end
+
+# 2. fisher (plugin manager).
 if not functions -q fisher
     echo "▸ Installing fisher…"
     curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
@@ -13,6 +22,7 @@ if not functions -q fisher
     end
 end
 
+# 3. Sync plugins listed in fish_plugins.
 echo "▸ Syncing plugins…"
 fisher update
 or begin

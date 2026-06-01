@@ -11,3 +11,6 @@ completions/*
 !conf.d/01-env.fish
 !conf.d/10-tools.fish
 !conf.d/50-abbr.fish
+
+# Hand-written functions.
+!functions/install-cli-tools.fish
