@@ -1,1 +1,13 @@
+# fish session-local state (per-machine; do not track).
 fish_variables
+
+# Everything fisher might install — ignore by default, then re-include ours.
+functions/*
+conf.d/*
+completions/*
+
+# Hand-written conf.d files.
+!conf.d/00-path.fish
+!conf.d/01-env.fish
+!conf.d/10-tools.fish
+!conf.d/50-abbr.fish
