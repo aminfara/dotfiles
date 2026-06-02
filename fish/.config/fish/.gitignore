@@ -16,3 +16,6 @@ completions/*
 # Hand-written functions.
 !functions/install-cli-tools.fish
 !functions/help.fish
+!functions/up.fish
+!functions/n.fish
+!functions/mkcd.fish
