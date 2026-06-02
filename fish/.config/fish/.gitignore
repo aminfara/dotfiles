@@ -19,3 +19,4 @@ completions/*
 !functions/up.fish
 !functions/n.fish
 !functions/mkcd.fish
+!functions/extract.fish
