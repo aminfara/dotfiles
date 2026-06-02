@@ -15,6 +15,7 @@ if command -q nvim
 end
 
 if command -q bat
+    set -gx MANROFFOPT -c  # prevent raw escape codes in man pages piped through bat
     set -gx BAT_PAGER  less
     set -gx MANPAGER   "sh -c 'col -bx | bat --style=plain --language=man'"
     set -gx PAGER      "bat --paging=always --style=plain"

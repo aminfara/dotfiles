@@ -20,3 +20,4 @@ completions/*
 !functions/n.fish
 !functions/mkcd.fish
 !functions/extract.fish
+!functions/backup.fish
