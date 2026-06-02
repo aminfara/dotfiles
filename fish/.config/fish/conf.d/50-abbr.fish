@@ -19,7 +19,7 @@ end
 
 # --- brew -----------------------------------------------------------------
 if command -q brew
-    abbr -a bruu 'brew update && brew upgrade'
+    abbr -a bruc 'brew update && brew upgrade && brew cleanup'
 end
 
 # --- lazygit -----------------------------------------------------------------
@@ -51,6 +51,7 @@ end
 abbr -a g git
 abbr -a ga 'git add'
 abbr -a gaa 'git add --all'
+abbr -a gap 'git add --patch'
 abbr -a gb 'git branch'
 abbr -a gba 'git branch --all'
 abbr -a gbr 'git branch --remote'
