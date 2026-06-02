@@ -8,6 +8,11 @@ if command -q zoxide
     alias cdi 'zi'
 end
 
+# bat — alias (not abbr) so history records `cat`, not `bat`.
+if command -q bat
+    alias cat 'bat --paging=never --style=plain'
+end
+
 # eza — flags repeated verbatim per entry for easy diffing.
 if command -q eza
     alias ls  'eza'

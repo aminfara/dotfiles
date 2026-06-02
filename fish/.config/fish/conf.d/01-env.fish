@@ -13,3 +13,9 @@ if command -q nvim
     set -gx VISUAL nvim
     set -gx GIT_EDITOR nvim
 end
+
+if command -q bat
+    set -gx BAT_PAGER  less
+    set -gx MANPAGER   "sh -c 'col -bx | bat --style=plain --language=man'"
+    set -gx PAGER      "bat --paging=always --style=plain"
+end
