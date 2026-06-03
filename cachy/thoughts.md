@@ -12,10 +12,10 @@ sudo pacman -Sy --asdeps --needed cmake cpio glaze hyprland-protocols hyprshutdo
 sudo pacman -Sy --needed hyprland
 ```
 
-xdg-desktop-portal-hyprland
+xdg-desktop-portal-hyprland + deps for screenshot
 
 ```
-sudo pacman -Sy --asdeps --needed grim slurp
+sudo pacman -Sy --asdeps --needed grim slurp swappy
 sudo pacman -Sy --needed xdg-desktop-portal-hyprland
 
 ```
@@ -53,3 +53,20 @@ sudo pacman -Sy --asdeps --needed cliphist wlsunset
 paru -S noctalia-shell
 
 ```
+
+sudo pacman -Sy --needed qt5-wayland qt6-wayland noto-fonts
+
+```
+
+```
+
+Hyprland Strongly required software
+
+```
+
+```
+
+Colorpicker
+sudo pacman -Sy --needed hyprpicker
+
+hyprland Env vars are set in both uwsm/env and hyprland.lua
