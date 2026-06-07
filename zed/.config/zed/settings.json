@@ -1,0 +1,62 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 2000
+    }
+  },
+  "base_keymap": "VSCode",
+  "bottom_dock_layout": "contained",
+  "buffer_font_family": "JetBrainsMono Nerd Font Mono",
+  "buffer_font_size": 14,
+  "buffer_font_weight": 300,
+  "cli_default_open_behavior": "new_window",
+  "colorize_brackets": true,
+  "diff_view_style": "unified",
+  "edit_predictions": {
+    "allow_data_collection": "no"
+  },
+  "icon_theme": "Zed (Default)",
+  "indent_guides": {
+    "coloring": "indent_aware"
+  },
+  "preferred_line_length": 100,
+  "prettier": {
+    "allowed": true
+  },
+  "restore_on_startup": "launchpad",
+  "soft_wrap": "none",
+  "terminal": {
+    "font_weight": 300,
+    "toolbar": {
+      "breadcrumbs": false
+    }
+  },
+  "theme": {
+    "dark": "Gruvbox Dark",
+    "light": "Gruvbox Light",
+    "mode": "system"
+  },
+  "toolbar": {
+    "code_actions": false
+  },
+  "ui_font_family": ".SystemUIFont",
+  "ui_font_size": 16,
+  "vim": {
+    "toggle_relative_line_numbers": true,
+    "use_smartcase_find": true
+  },
+  "vim_mode": true,
+  "when_closing_with_no_tabs": "platform_default",
+  "which_key": {
+    "delay_ms": 500,
+    "enabled": true
+  }
+}
