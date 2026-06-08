@@ -12,6 +12,16 @@ for brew_bin in /opt/homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew /usr/
         eval ($brew_bin shellenv)
         break
     end
+
+    set -l brew_prefix (brew --prefix)
+
+    if test -d "$brew_prefix/share/fish/vendor_completions.d"
+        set --prepend fish_complete_path "$brew_prefix/share/fish/vendor_completions.d"
+    end
+
+    if test -d "$brew_prefix/share/fish/completions"
+        set --prepend fish_complete_path "$brew_prefix/share/fish/completions"
+    end
 end
 
 # 3. User bins (highest priority — added last). -m moves dirs already on PATH
