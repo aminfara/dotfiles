@@ -8,6 +8,8 @@ set -q XDG_STATE_HOME;  or set -gx XDG_STATE_HOME  $HOME/.local/state
 set -gx LANG   en_US.UTF-8
 set -gx LC_ALL en_US.UTF-8
 
+set -gx TERM xterm-256color
+
 if command -q nvim
     set -gx EDITOR nvim
     set -gx VISUAL nvim
