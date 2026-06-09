@@ -22,3 +22,7 @@ if command -q bat
     set -gx MANPAGER   "sh -c 'col -bx | bat --style=plain --language=man'"
     set -gx PAGER      "bat --paging=always --style=plain"
 end
+
+if command -q ssh-agent
+   eval $(ssh-agent -c)
+end
