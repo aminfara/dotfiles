@@ -57,6 +57,15 @@ sudo pacman -Sy --needed xdg-desktop-portal-hyprland
 sudo pacman -Sy --needed hyprpolkitagent
 ```
 
+### Keyring
+
+Needed for password management, e.g. for wifi passwords, and also for some applications that use it to store secrets.
+
+```shell
+sudo pacman -S --needed kwallet kwalletmanager kwallet-pam
+gpg --full-generate-key
+```
+
 ### Noctalia
 
 ```shell

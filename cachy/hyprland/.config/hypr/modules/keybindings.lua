@@ -20,14 +20,21 @@ hl.bind(
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 -- hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
+-- hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
 
 -- Move focus with mainMod + arrow keys
--- hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
--- hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
--- hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
--- hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
+-- hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }), { transparent = true })
+-- hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }), { transparent = true })
+-- hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }), { transparent = true })
+-- hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }), { transparent = true })
+
+-- for i = 1, 10 do
+-- 	local key = i % 10 -- 10 maps to key 0
+-- 	hl.bind("SUPER + " .. key, hl.dsp.focus({ workspace = i }))
+-- 	hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+-- 	-- hl.bind(mainMod .. " + " .. key, hl.dsp.send_shortcut({ mods = "CTRL", key = key }))
+-- end
 
 -- Example special workspace (scratchpad)
 -- hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
@@ -125,20 +132,38 @@ hl.bind("CTRL + SHIFT + DOWN", hl.dsp.window.swap({ direction = "down" }))
 -- Editing
 -------------------------------------------------------------------------------
 
--- Cut
-hl.bind("SUPER + x", hl.dsp.send_shortcut({ mods = "CTRL", key = "x" }))
+---Creates correct bind
+--- https://github.com/hyprwm/Hyprland/discussions/14099#discussioncomment-16994570
+---@param params any
+---@return function
+function SendShortcut(params)
+	local timer = function()
+		local args = params
+		args.state = "up"
+		hl.dispatch(hl.dsp.send_key_state(args))
+	end
+	return function()
+		local args = params
+		args.state = "down"
+		hl.dispatch(hl.dsp.send_key_state(args))
+		hl.timer(timer, { timeout = 20, type = "oneshot" })
+	end
+end
 
--- Copy
+-- Cut
+hl.bind("SUPER + x", SendShortcut({ mods = "CTRL", key = "x" }))
+
+-- -- Copy
 hl.bind("SUPER + c", function()
 	local w = hl.get_active_window()
 
 	-- TODO define is_terminal
 	if w ~= nil and w.class == "com.mitchellh.ghostty" then
-		hl.dispatch(hl.dsp.send_shortcut({ mods = "CTRL + SHIFT", key = "c" }))
+		SendShortcut({ mods = "CTRL + SHIFT", key = "c" })()
 		return
 	end
 
-	hl.dispatch(hl.dsp.send_shortcut({ mods = "CTRL", key = "c" }))
+	SendShortcut({ mods = "CTRL", key = "c" })()
 end)
 
 -- Paste
@@ -147,25 +172,29 @@ hl.bind("SUPER + v", function()
 
 	-- TODO define is_terminal
 	if w ~= nil and w.class == "com.mitchellh.ghostty" then
-		hl.dispatch(hl.dsp.send_shortcut({ mods = "CTRL + SHIFT", key = "v" }))
+		SendShortcut({ mods = "CTRL + SHIFT", key = "v" })()
 		return
 	end
 
-	hl.dispatch(hl.dsp.send_shortcut({ mods = "CTRL", key = "v" }))
+	SendShortcut({ mods = "CTRL", key = "v" })()
 end)
 
 -- Actions
 -------------------------------------------------------------------------------
 
 -- Save
-hl.bind("SUPER + s", hl.dsp.send_shortcut({ mods = "CTRL", key = "s" }))
-hl.bind("SUPER + SHIFT + S", hl.dsp.send_shortcut({ mods = "CTRL + SHIFT", key = "s" }))
+hl.bind("SUPER + s", SendShortcut({ mods = "CTRL", key = "s" }))
+hl.bind("SUPER + SHIFT + S", SendShortcut({ mods = "CTRL + SHIFT", key = "s" }))
+
+-- Print / Command palette
+hl.bind("SUPER + p", SendShortcut({ mods = "CTRL", key = "p" }))
+hl.bind("SUPER + SHIFT + P", SendShortcut({ mods = "CTRL + SHIFT", key = "p" }))
 
 -- Find
-hl.bind("SUPER + f", hl.dsp.send_shortcut({ mods = "CTRL", key = "f" }))
+hl.bind("SUPER + f", SendShortcut({ mods = "CTRL", key = "f" }))
 
 -- Undo / Redo
-hl.bind("SUPER + SHIFT + Z", hl.dsp.send_shortcut({ mods = "CTRL", key = "y" }))
+hl.bind("SHIFT + SUPER + z", SendShortcut({ mods = "CTRL", key = "Y" }))
 
 hl.bind("SUPER + z", function()
 	local w = hl.get_active_window()
@@ -176,5 +205,5 @@ hl.bind("SUPER + z", function()
 		return
 	end
 
-	hl.dispatch(hl.dsp.send_shortcut({ mods = "CTRL", key = "z" }))
+	SendShortcut({ mods = "CTRL", key = "z" })()
 end)

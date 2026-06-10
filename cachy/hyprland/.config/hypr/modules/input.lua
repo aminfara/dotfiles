@@ -10,6 +10,10 @@ hl.config({
         kb_options = "",
         kb_rules = "",
 
+        repeat_rate = 50,   -- Number of repeats per second
+        repeat_delay = 200, -- Delay before a held key starts repeating (in ms)
+
+
         follow_mouse = 1,
 
         sensitivity = 0, -- -1.0 - 1.0, 0 means no modification.
