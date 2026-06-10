@@ -5,21 +5,23 @@
 -- Set programs that you use
 local terminal = "ghostty"
 local fileManager = "thunar"
-local menu = "rofi -show run"
+-- local menu = "rofi -show run"
+local noc_ipc = "qs -c noctalia-shell ipc call"
 
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
-hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
+-- hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
 -- local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
 hl.bind(
 	mainMod .. " + M",
 	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")
 )
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+hl.bind("SUPER + ALT + F", hl.dsp.exec_cmd(fileManager))
+hl.bind("SUPER + ALT + T", hl.dsp.exec_cmd(terminal))
 -- hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
+hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(noc_ipc .. " launcher toggle"))
 -- hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
 
@@ -207,3 +209,10 @@ hl.bind("SUPER + z", function()
 
 	SendShortcut({ mods = "CTRL", key = "z" })()
 end)
+
+-- Close window
+hl.bind("SUPER + w", SendShortcut({ mods = "CTRL", key = "w" }))
+
+-- Close app
+-- hl.bind("SUPER + q", SendShortcut({ mods = "ALT", key = "F4" }))
+hl.bind("SUPER + Q", hl.dsp.window.close())
