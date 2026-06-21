@@ -1,9 +1,9 @@
 return {
-  { "sainnhe/everforest" },
+  { "ellisonleao/gruvbox.nvim" },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "everforest",
+      colorscheme = "gruvbox",
     },
   },
 }

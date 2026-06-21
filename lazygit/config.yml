@@ -5,23 +5,23 @@ git:
 gui:
   theme:
     activeBorderColor:
-      - "#f2cdcd"
+      - '#fe8019' # Light Orange (Bright)
       - bold
     inactiveBorderColor:
-      - "#a6adc8"
+      - '#a89984' # Light 4 / Fg4
     optionsTextColor:
-      - "#89b4fa"
+      - '#83a598' # Light Blue
     selectedLineBgColor:
-      - "#313244"
+      - '#3c3836' # Dark 1 / Bg1 (Highlight background)
+    selectedRangeBgColor:
+      - '#504945' # Dark 2 / Bg2
     cherryPickedCommitBgColor:
-      - "#45475a"
+      - '#8ec07c' # Light Aqua
     cherryPickedCommitFgColor:
-      - "#f2cdcd"
+      - '#d3869b' # Light Purple
     unstagedChangesColor:
-      - "#f38ba8"
+      - '#fb4934' # Light Red
     defaultFgColor:
-      - "#cdd6f4"
+      - '#ebdbb2' # Light 1 / Fg1 (Main text color)
     searchingActiveBorderColor:
-      - "#f9e2af"
-  authorColors:
-    "*": "#b4befe"
+      - '#fabd2f' # Light Yellow
