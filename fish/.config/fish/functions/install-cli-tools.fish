@@ -9,20 +9,23 @@ function install-cli-tools --description 'Install/upgrade brew CLI tools used by
 
     # Common tools — one per line for easy edit.
     set -l pkgs \
-        fish \
-        starship \
-        fzf \
-        fd \
-        ripgrep \
         bat \
+        btop \
         eza \
-        zoxide \
+        fd \
+        fish \
+        fzf \
+        git \
+        git-delta \
+        lazygit \
         mise \
         neovim \
-        git \
-        lazygit \
-        btop \
-        git-delta
+        ripgrep \
+        starship \
+        stow \
+        yazi \
+        zoxide
+
 
     # OS-conditional extras.
     switch (uname)

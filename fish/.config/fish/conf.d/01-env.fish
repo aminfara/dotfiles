@@ -23,6 +23,6 @@ if command -q bat
     set -gx PAGER "bat --paging=always --style=plain"
 end
 
-if command -q ssh-agent
-    eval $(ssh-agent -c) >/dev/null
+if test -S "$XDG_RUNTIME_DIR/ssh-agent.socket"
+   set -gx SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/ssh-agent.socket"
 end
