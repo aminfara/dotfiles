@@ -16,6 +16,7 @@ bluez-hid2hci
 bluez-libs
 bluez-obex
 bluez-utils
+brave-origin-bin
 breeze-gtk
 btop
 btrfs-assistant
@@ -78,6 +79,7 @@ foomatic-db-ppds
 fsarchiver
 fwupd
 ghostscript
+ghostty
 git
 glances
 gsfonts
@@ -184,6 +186,7 @@ python-defusedxml
 python-packaging
 python-pyqt5
 python-reportlab
+realtime-privileges
 rebuild-detector
 reflector
 ripgrep
@@ -198,6 +201,7 @@ spectacle
 sudo
 sysfsutils
 system-config-printer
+tesseract-data-eng
 texinfo
 ttf-bitstream-vera
 ttf-dejavu
