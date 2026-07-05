@@ -23,6 +23,7 @@ btrfs-assistant
 btrfs-progs
 cachy-update
 cachyos-emerald-kde-theme-git
+cachyos-fish-config
 cachyos-hello
 cachyos-hooks
 cachyos-iridescent-kde
@@ -41,6 +42,7 @@ cachyos-snapper-support
 cachyos-v3-mirrorlist
 cachyos-v4-mirrorlist
 cachyos-wallpapers
+cachyos-zsh-config
 cantarell-fonts
 char-white
 chwd
@@ -69,7 +71,7 @@ ffmpegthumbnailer
 ffmpegthumbs
 filelight
 firefox
-fish
+flatpak
 foomatic-db
 foomatic-db-engine
 foomatic-db-gutenprint-ppds
@@ -159,7 +161,6 @@ openssh
 os-prober
 pacman-contrib
 partitionmanager
-paru
 pavucontrol
 perl
 phonon-qt6-vlc
@@ -226,3 +227,4 @@ xdg-user-dirs
 xfsprogs
 xl2tpd
 xsettingsd
+zed
