@@ -16,3 +16,16 @@ sudo pacman -S --noconfirm --needed --asdeps \
     hyprshutdown \
     uwsm libnewt libnotify \
     xdg-desktop-portal-hyprland grim slurp \
+
+echo "Installing Noctalia ..."
+sudo pacman -S --noconfirm --needed \
+    noctalia-shell \
+
+sudo pacman -S --noconfirm --needed --asdeps \
+    cliphist xdg-utils \
+    ddcutil \
+    power-profiles-daemon python-gobject \
+    wlsunset \
+
+
+# TODO: need fonts

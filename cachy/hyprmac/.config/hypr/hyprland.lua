@@ -46,17 +46,19 @@ local menu = "hyprlauncher"
 -- Autostart necessary processes (like notifications daemons, status bars, etc.)
 -- Or execute your favorite apps at launch like this:
 --
--- hl.on("hyprland.start", function ()
+hl.on("hyprland.start", function ()
+  hl.exec_cmd("qs -c noctalia-shell")
 --   hl.exec_cmd(terminal)
 --   hl.exec_cmd("nm-applet")
 --   hl.exec_cmd("waybar & hyprpaper & firefox")
--- end)
+end)
 
 -------------------------------
 ---- ENVIRONMENT VARIABLES ----
 -------------------------------
 
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
+-- See hypermac/.config/uwsm/env
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
@@ -218,12 +220,12 @@ hl.config({
 hl.config({
 	input = {
 		kb_layout = "us",
-		kb_variant = "",
+		kb_variant = "mac",
 		kb_model = "",
-		kb_options = "",
+		kb_options = "ctrl:swap_lwin_lctl,ctrl:swap_rwin_rctl",
 		kb_rules = "",
 
-		follow_mouse = 1,
+		follow_mouse = 2,
 
 		sensitivity = 0, -- -1.0 - 1.0, 0 means no modification.
 
