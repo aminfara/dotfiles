@@ -18,5 +18,6 @@ export LIBVA_DRIVER_NAME="nvidia"
 export __GLX_VENDOR_LIBRARY_NAME="nvidia"
 export GBM_BACKEND=nvidia-drm
 export EGL_PLATFORM=wayland
+export NVD_BACKEND=direct
 
 export TERM=xterm-ghostty
