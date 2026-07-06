@@ -18,6 +18,11 @@
         "ignoreMouseInput": false,
         "overviewLayer": false,
         "pinnedApps": [
+            "brave-origin",
+            "com.mitchellh.ghostty",
+            "code",
+            "claude-desktop",
+            "com.shellyorg.shelly"
         ],
         "position": "center",
         "screenshotAnnotationTool": "",
@@ -25,7 +30,7 @@
         "showIconBackground": false,
         "sortByMostUsed": true,
         "terminalCommand": "alacritty -e",
-        "viewMode": "list"
+        "viewMode": "grid"
     },
     "audio": {
         "mprisBlacklist": [
@@ -255,7 +260,7 @@
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
         "monitorForColors": "",
-        "predefinedScheme": "Noctalia (default)",
+        "predefinedScheme": "Gruvbox",
         "schedulingMode": "off",
         "syncGsettings": true,
         "useWallpaperColors": false
@@ -424,7 +429,7 @@
         "showScreenCorners": false,
         "showSessionButtonsOnLockScreen": true,
         "smoothScrollEnabled": true,
-        "telemetryEnabled": false
+        "telemetryEnabled": true
     },
     "hooks": {
         "colorGeneration": "",

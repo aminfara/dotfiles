@@ -20,4 +20,6 @@ export GBM_BACKEND=nvidia-drm
 export EGL_PLATFORM=wayland
 export NVD_BACKEND=direct
 
+export QS_ICON_THEME=Papirus-Dark
+
 export TERM=xterm-ghostty

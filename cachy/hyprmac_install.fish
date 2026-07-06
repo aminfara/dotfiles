@@ -8,7 +8,6 @@ sudo pacman -S --noconfirm --needed \
 sudo pacman -S --noconfirm --needed --asdeps \
     hyprpicker wl-clipboard \
     hyprshutdown \
-    polkit-kde-agent \
     uwsm libnewt libnotify \
     xdg-desktop-portal-hyprland grim slurp
 
@@ -22,6 +21,12 @@ sudo pacman -S --noconfirm --needed --asdeps \
     power-profiles-daemon python-gobject \
     wlsunset
 
-systemctl --user enable --now ssh-agent.socket
+# systemctl --user enable --now ssh-agent.socket
 
 # TODO: need fonts
+
+# install papirus icon theme
+echo "Installing Papirus icon theme ..."
+wget -qO- https://git.io/papirus-icon-theme-install | env DESTDIR="$HOME/.local/share/icons" sh
+
+# Nwg-look qt5ct qt6ct -> save settings for GTK and qt5 and qt6 apps
