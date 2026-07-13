@@ -22,7 +22,8 @@
             "com.mitchellh.ghostty",
             "code",
             "claude-desktop",
-            "com.shellyorg.shelly"
+            "com.shellyorg.shelly",
+            "org.gnome.Nautilus"
         ],
         "position": "center",
         "screenshotAnnotationTool": "",

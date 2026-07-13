@@ -4,30 +4,44 @@
 
 -- Set programs that you use
 local terminal = "ghostty"
-local fileManager = "dolphin"
-local menu = "hyprlauncher"
-
-
+local fileManager = "nautilus"
+local menu = "qs -c noctalia-shell ipc call launcher toggle"
 
 ---------------------
 ---- KEYBINDINGS ----
 ---------------------
 
-local mainMod = "SUPER" -- Sets "Windows" key as main modifier
+require("modules.common.utils") -- For SendShortcut()
 
--- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
+local mainMod = "SUPER"         -- CTRL key in reality, as input.lua flip CTRL and SUPER keys
+
+-- Program Launchers
+--------------------------------------------------------------------------------
+
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + ALT + T", hl.dsp.exec_cmd(terminal))
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+
+-- Commands
+--------------------------------------------------------------------------------
+
+
 local closeWindowBind = hl.bind(mainMod .. " + ALT + Q", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
 hl.bind(
   mainMod .. " + M",
   hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")
 )
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+
+-- Window management (TODO)
+--------------------------------------------------------------------------------
+
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
+
+-- Workspaces (TODO)
+--------------------------------------------------------------------------------
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
@@ -47,6 +61,9 @@ end
 hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
+-- Mouse bindings (requires mouse support in Hyprland)
+--------------------------------------------------------------------------------
+
 -- Scroll through existing workspaces with mainMod + scroll
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
@@ -54,6 +71,9 @@ hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 -- Move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+
+-- Media keys (requires playerctl and wpctl)
+--------------------------------------------------------------------------------
 
 -- Laptop multimedia keys for volume and LCD brightness
 hl.bind(
