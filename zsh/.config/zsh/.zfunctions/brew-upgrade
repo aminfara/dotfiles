@@ -2,4 +2,4 @@
 
 (( $+commands[brew] )) || return 1
 
-brew update && brew upgrade && brew cleanup
+brew update && brew upgrade --yes && brew cleanup

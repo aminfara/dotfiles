@@ -19,7 +19,7 @@ end
 
 # --- brew -----------------------------------------------------------------
 if command -q brew
-    abbr -a bruc 'brew update && brew upgrade && brew cleanup'
+    abbr -a bruc 'brew update && brew upgrade  --yes && brew cleanup'
 end
 
 # --- lazygit -----------------------------------------------------------------
