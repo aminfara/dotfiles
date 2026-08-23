@@ -21,3 +21,4 @@ completions/*
 !functions/mkcd.fish
 !functions/extract.fish
 !functions/backup.fish
+!functions/setup_fonts_and_keyboard.fish
