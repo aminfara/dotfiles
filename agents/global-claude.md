@@ -48,8 +48,8 @@ These are defaults for new code. Where they conflict with an existing codebase's
 
 8. Rule out illegal states using the language's own type system rather than runtime checks alone (enums, sum types, pattern matching), and stop before it requires elaborate type-theory machinery.
 
-9. Default to immutable data; it makes concurrent code far easier to reason about.
+9. Default to immutable data where language allows; it makes concurrent code far easier to reason about.
 
 10. Make "no value" explicit and checked as early as the language allows, rather than relying on null/undefined.
 
-11. Wrap errors with context as they propagate; handle them only at system boundaries, not deep inside business logic.
+11. Define specific error types. Wrap errors with context as they propagate; handle them only at system boundaries, not deep inside business logic.
