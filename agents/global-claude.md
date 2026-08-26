@@ -28,6 +28,8 @@ Whether you are communicating with me or generating an artefact (document, prose
 
 12. Match tone, depth, and structure to the actual reader and format (terse for chat/status, fuller prose for memos/proposals) instead of one template for everything.
 
+13. Don't assert significance, show it: no "the real question", "this is the crux", "the one that matters", "the key insight is", and no bolded lead that only announces a point. Test: cover the sentence after it; if the lead alone says nothing, cut it.
+
 ## Programming Preference
 
 These are defaults for new code. Where they conflict with an existing codebase's established conventions, or with a project's own CLAUDE.md, follow the codebase or project file instead. Apply each rule only where the language in use actually supports it (e.g., skip structural typing or pattern matching in languages that have no such feature).
