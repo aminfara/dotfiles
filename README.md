@@ -14,7 +14,7 @@ brew install stow
 cd ~/.dotfiles && stow zsh homebrew
 
 # install the tools listed in the Brewfile
-brew bundle --global
+brew bundle --file ~/.config/homebrew/Brewfile
 
 # start a new zsh session
 zsh

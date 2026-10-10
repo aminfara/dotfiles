@@ -23,3 +23,11 @@ path=(
   /usr/local/{,s}bin(N)
   $path
 )
+
+# Homebrew's completions. z1 runs `brew shellenv`, but that prints nothing when
+# PATH already starts with the Homebrew bin dirs, as it does here.
+fpath=(
+  /opt/homebrew/share/zsh/site-functions(N-/)
+  /home/linuxbrew/.linuxbrew/share/zsh/site-functions(N-/)
+  $fpath
+)
