@@ -7,10 +7,17 @@
 [[ ! -f ${ZDOTDIR:-$HOME}/.zstyles ]] || source ${ZDOTDIR:-$HOME}/.zstyles
 zstyle ':z1:zstyles' loaded yes
 
-# Homebrew completions (_mise, _eza, ...) must be on fpath before compinit.
-# z1's `brew shellenv` adds them only when PATH does not already start with the
-# Homebrew bin dirs, which depends on the parent process, so add them here.
-fpath=(/opt/homebrew/share/zsh/site-functions(N-/) $fpath)
+# Homebrew: sets PATH, MANPATH and fpath (completions like _mise and _eza).
+# `brew shellenv` prints nothing when PATH already starts with the Homebrew bin
+# dirs, and z1 puts them there just before its own call, so z1's call never
+# works. Run it here on a PATH without them and tell z1 to skip.
+zstyle ':z1:homebrew' skip yes
+() {
+  local brew=(/opt/homebrew/bin/brew(N) /usr/local/bin/brew(N) /home/linuxbrew/.linuxbrew/bin/brew(N))
+  (( $#brew )) || return
+  path=(${path:#${brew[1]:h:h}/(bin|sbin)})
+  eval "$($brew[1] shellenv)"
+}
 
 # Clone antidote if necessary.
 if [[ ! -d ${ZDOTDIR:-$HOME}/.antidote ]]; then
