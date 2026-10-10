@@ -13,9 +13,16 @@ brew "ripgrep"
 brew "starship"
 brew "stow"
 brew "tmux"
+brew "vivid"
 brew "watch"
 brew "wget"
 brew "yazi"
 brew "yq"
 brew "zoxide"
+
+if OS.mac?
+  cask "font-hack-nerd-font"
+  cask "font-symbols-only-nerd-font"
+end
+
 flatpak "com.visualstudio.code"

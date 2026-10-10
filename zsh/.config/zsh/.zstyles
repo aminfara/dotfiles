@@ -1,18 +1,11 @@
 #!/bin/zsh
 #
-# .zstyles - Set zstyle settings for plugins that need them.
+# .zstyles - Settings read while plugins load. Sourced before antidote, so
+# anything read later belongs in conf.d instead.
 #
 
-#
-# Antidote
-#
+# Antidote: hold plugin updates for 14 days as a supply-chain cushion.
+zstyle ':antidote:bundle:*' min-age 14
 
-# zstyle ':antidote:bundle' file ${ZDOTDIR:-~}/.zplugins.txt
-# zstyle ':antidote:bundle' use-friendly-names 'yes'
-
-#
-# zsh-autosuggestions
-#
-
-# Use history first, fall back to completion engine when history diverges
-ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+# z1: zsh-autosuggestions handles suggestions (it can fall back to completion).
+zstyle ':z1:autosuggest' skip yes

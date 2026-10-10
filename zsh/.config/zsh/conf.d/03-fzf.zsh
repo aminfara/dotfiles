@@ -1,4 +1,4 @@
-[[ ! -f "$HOME"/.fzf.zsh ]] && return 1
+(( $+commands[fzf] )) || return 1
 
 if (( $+commands[fd] )); then
   fzf_compgen_path() {
@@ -22,6 +22,4 @@ fi
 
 export FZF_CTRL_T_OPTS="--preview \"$FZF_PREVIEW_COMMAND\""
 
-bindkey ç fzf-cd-widget
-
-source "$HOME"/.fzf.zsh
+source <(fzf --zsh)

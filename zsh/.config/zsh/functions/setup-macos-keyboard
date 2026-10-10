@@ -1,10 +1,12 @@
 #!/bin/zsh
+#
+# Fast key repeat, and key repeat instead of the accent picker in VS Code.
+#
 
-(( $+commands[brew] )) || return 1
-
-brew-ingrade \
-  font-hack-nerd-font \
-  font-symbols-only-nerd-font \
+if ! is-macos; then
+  print -ru2 -- "setup-macos-keyboard: macOS only"
+  return 1
+fi
 
 defaults write NSGlobalDomain KeyRepeat -int 2
 defaults write NSGlobalDomain InitialKeyRepeat -int 15

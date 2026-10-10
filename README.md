@@ -8,19 +8,22 @@ Ali's .files
 # clone this project
 git clone https://github.com/aminfara/dotfiles.git ~/.dotfiles
 
-ZDOTDIR=~/.config/zsh
-ln -s ~/.dotfiles/zsh $ZDOTDIR
-
-# source the .zshenv from ZDOTDIR
+# link zsh (~/.zshenv, ~/.config/zsh) and the Brewfile (~/.config/homebrew)
 [[ -f ~/.zshenv ]] && mv -f ~/.zshenv ~/.zshenv.bak
-echo ". $ZDOTDIR/.zshenv" > ~/.zshenv
+brew install stow
+cd ~/.dotfiles && stow zsh homebrew
+
+# install the tools listed in the Brewfile
+brew bundle --global
 
 # start a new zsh session
 zsh
 
+# macOS only: fast key repeat
+setup-macos-keyboard
+
 ln -s ~/.dotfiles/ghostty $XDG_CONFIG_HOME/ghostty
 ln -s ~/.dotfiles/btop $XDG_CONFIG_HOME/btop
-ln -s ~/.dotfiles/eza $XDG_CONFIG_HOME/eza
 ln -s ~/.dotfiles/lazygit $XDG_CONFIG_HOME/lazygit
 ln -s ~/.dotfiles/tmux $XDG_CONFIG_HOME/tmux
 ln -s ~/.dotfiles/opencode $XDG_CONFIG_HOME/opencode
@@ -28,7 +31,6 @@ ln -s ~/.dotfiles/copilot $HOME/.copilot
 ln -s ~/.dotfiles/agents $HOME/.agents
 ln -s ~/.dotfiles/gitconfig-global $HOME/.gitconfig
 
-# in the new shell, run the install script to install other tools
-# open a new terminal and enjoy!
-install-cli-tools
+# later: update Homebrew and everything in the Brewfile
+bruc
 ```

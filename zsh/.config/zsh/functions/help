@@ -1,0 +1,24 @@
+#!/bin/zsh
+#
+# Render `<command> --help` through bat. Usage: help git   help git commit
+# Falls back to the man page for commands without --help (BSD ls, cp, man).
+#
+
+if (( ! $# )); then
+  print -ru2 -- "usage: help <command> [subcommand...]"
+  return 1
+fi
+
+local out
+if out=$("$@" --help 2>&1); then
+  if (( $+commands[bat] )); then
+    print -r -- "$out" | bat --language=help --style=plain --paging=never
+  else
+    print -r -- "$out"
+  fi
+elif man -w "$1" &>/dev/null; then
+  man "$1"
+else
+  print -r -- "$out"
+  return 1
+fi

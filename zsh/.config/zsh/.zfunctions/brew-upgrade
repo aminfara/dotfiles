@@ -1,5 +1,0 @@
-#!/bin/zsh
-
-(( $+commands[brew] )) || return 1
-
-brew update && brew upgrade --yes && brew cleanup

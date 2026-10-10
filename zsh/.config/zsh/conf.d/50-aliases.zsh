@@ -3,6 +3,18 @@ alias c="clear"
 alias path="tr ':' '\\n' <<< \$PATH"
 alias fpath="tr ':' '\\n' <<< \$FPATH"
 
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+
+# z1 aliases help to run-help; functions/help replaces it.
+unalias help 2>/dev/null
+
+if (( $+commands[brew] )); then
+  # Brewfile lives at $XDG_CONFIG_HOME/homebrew/Brewfile (homebrew stow package).
+  alias bruc="brew update && brew bundle --global && brew cleanup"
+fi
+
 if (( $+commands[btop] )); then
   alias top="btop -p 0"
   alias psi="btop -p 1"
@@ -19,11 +31,4 @@ fi
 
 if (( $+commands[bat] )); then
   alias cat="bat --paging=never --style=plain"
-  alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
-  alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
-fi
-
-if (( $+functions[z] )); then
-  alias cd="z"
-  alias cdi="zi"
 fi
