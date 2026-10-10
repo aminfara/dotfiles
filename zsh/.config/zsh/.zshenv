@@ -21,6 +21,7 @@ path=(
   /opt/{homebrew,local}/{,s}bin(N)
   /home/linuxbrew/.linuxbrew/{,s}bin(N)
   /usr/local/{,s}bin(N)
+  ${XDG_DATA_HOME:-$HOME/.local/share}/mise/shims(N-/)
   $path
 )
 
