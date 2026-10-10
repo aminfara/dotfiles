@@ -39,7 +39,7 @@ Type part of a command and press `↑`/`↓` to walk matching history entries. M
 
 ### ls alternatives
 
-`ls` is aliased to `eza`. Also try `l`, `ll`, `la` (detailed) and `lsi` (icons, directories first).
+`ls` is aliased to `eza`. Also try `l`, `ll`, `la` (detailed) `lsi` (icons, directories first) and `lt` (tree, two levels, skipping `.git`, `node_modules` and gitignored files; pass `--level=N` to go deeper).
 
 ### cd alternatives
 

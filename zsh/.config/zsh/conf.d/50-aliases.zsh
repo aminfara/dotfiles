@@ -28,6 +28,7 @@ if (( $+commands[eza] )); then
   alias ll="lsi -l"
   alias la="lsi -al"
   alias l="lsi -aal"
+  alias lt="lsi --tree --level=2 --git-ignore --ignore-glob='.git|node_modules'"
 fi
 
 if (( $+commands[bat] )); then
