@@ -9,3 +9,7 @@ zstyle ':antidote:bundle:*' min-age 14
 
 # z1: zsh-autosuggestions handles suggestions (it can fall back to completion).
 zstyle ':z1:autosuggest' skip yes
+
+# z1: .zshrc runs `brew shellenv` itself, because z1's own call never prints
+# anything (it puts the Homebrew dirs first on PATH just before calling it).
+zstyle ':z1:homebrew' skip yes

@@ -10,8 +10,8 @@ zstyle ':z1:zstyles' loaded yes
 # Homebrew: sets PATH, MANPATH and fpath (completions like _mise and _eza).
 # `brew shellenv` prints nothing when PATH already starts with the Homebrew bin
 # dirs, and z1 puts them there just before its own call, so z1's call never
-# works. Run it here on a PATH without them and tell z1 to skip.
-zstyle ':z1:homebrew' skip yes
+# works. Run it here on a PATH without them (z1's own call is skipped in
+# .zstyles).
 () {
   local brew=(/opt/homebrew/bin/brew(N) /usr/local/bin/brew(N) /home/linuxbrew/.linuxbrew/bin/brew(N))
   (( $#brew )) || return
