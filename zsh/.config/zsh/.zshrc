@@ -15,6 +15,7 @@ zstyle ':z1:homebrew' skip yes
 () {
   local brew=(/opt/homebrew/bin/brew(N) /usr/local/bin/brew(N) /home/linuxbrew/.linuxbrew/bin/brew(N))
   (( $#brew )) || return
+  # Drop brew's bin and sbin from PATH so shellenv does not see them and bail out.
   path=(${path:#${brew[1]:h:h}/(bin|sbin)})
   eval "$($brew[1] shellenv)"
 }
