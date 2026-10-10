@@ -7,6 +7,11 @@
 [[ ! -f ${ZDOTDIR:-$HOME}/.zstyles ]] || source ${ZDOTDIR:-$HOME}/.zstyles
 zstyle ':z1:zstyles' loaded yes
 
+# Homebrew completions (_mise, _eza, ...) must be on fpath before compinit.
+# z1's `brew shellenv` adds them only when PATH does not already start with the
+# Homebrew bin dirs, which depends on the parent process, so add them here.
+fpath=(/opt/homebrew/share/zsh/site-functions(N-/) $fpath)
+
 # Clone antidote if necessary.
 if [[ ! -d ${ZDOTDIR:-$HOME}/.antidote ]]; then
   git clone https://github.com/mattmc3/antidote ${ZDOTDIR:-$HOME}/.antidote
