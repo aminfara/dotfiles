@@ -1,0 +1,39 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "command": "/usr/local/bin/aicodemetricsd hook github-copilot --hook-input stdin",
+        "timeoutSec": 10,
+        "type": "command"
+      }
+    ],
+    "PreCompact": [
+      {
+        "command": "/usr/local/bin/aicodemetricsd hook github-copilot --hook-input stdin",
+        "timeoutSec": 10,
+        "type": "command"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "command": "/usr/local/bin/aicodemetricsd hook github-copilot --hook-input stdin",
+        "timeoutSec": 10,
+        "type": "command"
+      }
+    ],
+    "SessionStart": [
+      {
+        "command": "/usr/local/bin/aicodemetricsd hook github-copilot --hook-input stdin",
+        "timeoutSec": 10,
+        "type": "command"
+      }
+    ],
+    "Stop": [
+      {
+        "command": "/usr/local/bin/aicodemetricsd hook github-copilot --hook-input stdin",
+        "timeoutSec": 10,
+        "type": "command"
+      }
+    ]
+  }
+}
