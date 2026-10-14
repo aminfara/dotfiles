@@ -1,28 +1,95 @@
+tap "oven-sh/bun", trusted: true
+# Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
+# Yet another cross-platform graphical process/system monitor
+brew "bottom"
+# Resource monitor. C++ version and continuation of bashtop and bpytop
 brew "btop"
+# Modern, maintained replacement for ls
 brew "eza"
+# Simple, fast and user-friendly alternative to find
 brew "fd"
+# User-friendly command-line shell for UNIX-like operating systems
+brew "fish"
+# Command-line fuzzy finder written in Go
 brew "fzf"
+# Distributed revision control system
+brew "git"
+# Syntax-highlighting pager for git and diff output
 brew "git-delta"
+# GNU Privacy Guard (OpenPGP)
 brew "gnupg"
+# Lightweight and flexible command-line JSON processor
 brew "jq"
+# Simple terminal UI for git commands
 brew "lazygit"
+# General-purpose data compression with high compression ratio
+brew "xz"
+# Package manager for the Lua programming language
+brew "luarocks"
+# Command-line interface for SQLite
+brew "sqlite"
+# Fast, flexible, config-based cli for linting Markdown/CommonMark files
+brew "markdownlint-cli2"
+# Polyglot runtime manager (asdf rust clone)
 brew "mise"
+# Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
+# Show ps output as a tree
+brew "pstree"
+# Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# Static analysis and lint tool, for (ba)sh scripts
+brew "shellcheck"
+# Autoformat shell script source code
+brew "shfmt"
+# Cross-shell prompt for astronauts
 brew "starship"
+# Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
+# Opinionated Lua code formatter
+brew "stylua"
+# Terminal multiplexer
 brew "tmux"
+# Display directories as trees (with optional color/HTML output)
+brew "tree"
+# Extremely fast Python package installer and resolver, written in Rust
+brew "uv"
+# Generator for LS_COLORS with support for multiple color themes
 brew "vivid"
+# Executes a program periodically, showing output fullscreen
 brew "watch"
+# Internet file retriever
 brew "wget"
+# Blazing fast terminal file manager written in Rust, based on async I/O
 brew "yazi"
+# Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "yq"
+# General-purpose lossless data-compression library
+brew "zlib"
+# Shell extension to navigate your filesystem faster
 brew "zoxide"
-
-if OS.mac?
-  cask "font-hack-nerd-font"
-  cask "font-symbols-only-nerd-font"
-end
-
-flatpak "com.visualstudio.code"
+# Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
+brew "oven-sh/bun/bun"
+# Enable Windows-like alt-tab
+cask "alt-tab"
+# Terminal-based AI coding assistant
+cask "claude-code"
+# OpenAI's coding agent that runs in your terminal
+cask "codex"
+cask "font-fira-code-nerd-font"
+cask "font-hack-nerd-font"
+cask "font-inconsolata-nerd-font"
+cask "font-meslo-lg-nerd-font"
+cask "font-sauce-code-pro-nerd-font"
+cask "font-symbols-only-nerd-font"
+# Terminal emulator that uses platform-native UI and GPU acceleration
+cask "ghostty"
+# Move and resize windows using keyboard shortcuts or snap areas
+cask "rectangle"
+# Virtualization tool
+cask "virtualbuddy"
+# Multiplayer code editor
+cask "zed"
+uv "atlassian-mcp-scout"
+npm "corepack"
