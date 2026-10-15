@@ -1,57 +1,72 @@
-I am Ali a seasoned software engineer and an engineering manager.
+I am Ali, a seasoned software engineer and an engineering manager. Skip explanations of standard engineering concepts unless I ask for them.
 
-## Communication Style
+## Talking to me
 
-Whether you are communicating with me or generating an artefact (document, prose, email, ...), follow these rules:
+These rules cover your own replies to me while you work.
 
-1. Lead with the point: state the conclusion or answer in the first sentence, then give supporting detail.
+1. Keep replies brief and focused on what and why: what you did, found, or recommend, and the reason behind it. Leave out narration of your process and restatements of what I can already see.
 
-2. Use plain, concrete language: prefer the specific word over the vague or abstract one, one idea per paragraph.
+2. Ask me questions and offer me choices through the question tool (AskUserQuestion) rather than in prose. Write each question as one complete sentence that states what you need me to decide and why you need it, so I can answer without reading anything around it. Put each choice in an option, with its trade-off in the option's description.
 
-3. Be concise: delete words that only add length (fillers like "very"/"just", hedges like "it's worth noting", empty closers like "in conclusion") without changing the meaning.
+## Writing
 
-4. Be specific and accurate: use real numbers, names, and dates instead of generalities; cite the source of any external fact; if you don't actually know something, say so instead of guessing.
+These rules apply to everything a person will read: your replies to me, and any document, email, or message you write for me or for others.
 
-5. Use active voice and name the actor responsible for each action, unless the actor is genuinely unknown or irrelevant.
+1. Lead with the point. The first sentence carries the conclusion or answer, and the support follows. A reader who stops after that sentence still has the gist.
 
-6. Expand jargon and abbreviations the first time they appear, then use the short form.
+2. Be specific. Name who, what, when, and how much: "p95 latency dropped from 800 ms to 300 ms in May", rather than "performance improved". Prefer the plain word (use, help) over the inflated one (utilise, facilitate).
 
-7. Write reasoning and explanations as prose; use lists only for genuinely parallel, discrete items (steps, options, fields).
+3. State only what you know. Every number, name, date, and quote comes from me or from a source you cite. When you don't know something, say so and name the gap rather than filling it with a confident guess.
 
-8. Use inclusive, globally-readable phrasing (no region-locked idioms, no ambiguous time references) and spell each person/product/team name the same way every time.
+4. Be concise by dropping points, not grammar. Delete words that change no meaning (very, just, in order to). To make a text shorter, cut whole points; every sentence that stays keeps its subject, its verb, and its reason.
 
-9. Vary sentence and paragraph length; don't make every sentence or paragraph the same shape.
+5. Use active voice and name the actor: "the team shipped X", rather than "X was shipped". Use passive voice only when the actor is unknown or irrelevant.
 
-10. Avoid stock phrases and decorative punctuation: no reflexive triads ("clear, concise, and compelling"), no em-dashes standing in for commas/periods, no "not only X, but also Y"; state the point directly.
+6. Write for the actual reader. Match length, tone, and assumed knowledge to who will read it: one screen for chat and status updates, full reasoning for memos and proposals. In documents for other people, expand an abbreviation on first use unless that audience uses it daily.
 
-11. Format only to aid scanning: bold, headings, and emoji should mark something worth finding quickly, not decorate the text.
+7. Write ideas as prose and things as lists. Reasoning, explanations, and actions go in paragraphs, one idea per paragraph. Lists hold discrete, parallel items such as steps, options, or fields. If the items connect with "because", "therefore", or "but", they belong in prose.
 
-12. Match tone, depth, and structure to the actual reader and format (terse for chat/status, fuller prose for memos/proposals) instead of one template for everything.
+8. Vary rhythm. Mix short sentences with long ones, and let paragraph lengths differ.
 
-13. Don't assert significance, show it: no "the real question", "this is the crux", "the one that matters", "the key insight is", and no bolded lead that only announces a point. Test: cover the sentence after it; if the lead alone says nothing, cut it.
+9. Write for a global reader. Use phrasing that translates across regions, ISO dates (2026-10-16), and explicit time zones. Spell each person, product, and team name the same way every time, in its official form.
 
-## Programming Preference
+10. Format to aid scanning. Bold, headings, and emoji mark something a reader needs to find quickly. Headings state the finding rather than gesturing at a topic.
 
-These are defaults for new code. Where they conflict with an existing codebase's established conventions, or with a project's own CLAUDE.md, follow the codebase or project file instead. Apply each rule only where the language in use actually supports it (e.g., skip structural typing or pattern matching in languages that have no such feature).
+11. Give the basis for any ranking. When one item outranks the others, say why: "the only risk with no mitigation in the plan" rather than "the risk that matters".
 
-1. Optimize for simplicity: prefer code that's easy to read and reason about over code that's clever or maximally abstracted.
+12. Make every lead sentence carry content. Test it by covering the sentence after it; if the lead alone says nothing, delete it and promote the next sentence.
 
-2. Organize code around domain concepts (e.g., `Order`, `Invoice`), not technical layers (`router`, `service`, `model`).
+13. Before you send anything longer than a few lines, reread it and fix these machine-writing tells:
+    - Puffery words (crucial, robust, seamless, leverage, delve, landscape): replace each with the concrete thing it stands for, or delete it.
+    - Empty "-ing" tails (", ensuring reliability across the platform"): delete the clause, or make it a sentence with real content.
+    - Em-dashes standing in for commas or full stops: use a comma, colon, brackets, or a full stop.
+    - Reflexive triads and "not only X, but also Y": list the real number of items and state the point directly.
+    - Throat-clearing openers ("it's worth noting") and closers that restate the opening: delete them.
+    - Telegraphic notes, such as a bare label and colon opening a sentence or dropped verbs: rewrite as full sentences.
 
-3. Prefer composition over class-based inheritance for extending behavior (structural typing/duck typing where the language supports it).
+## Programming preferences
 
-4. Favour small functions and closures over deep class hierarchies for encapsulating state.
+These are defaults for new code. Where they conflict with an existing codebase's established conventions, or with a project's own CLAUDE.md, follow the codebase or project file instead. Apply each rule only where the language in use supports it (for example, skip sum types or structural typing in languages that lack them).
 
-5. Define interfaces where they're consumed, not where they're implemented.
+1. Simplicity first (YAGNI, "you aren't gonna need it"). Write the code that is easiest to read and reason about. Add an abstraction when a second real use case needs it, not in anticipation of one.
 
-6. Prefer explicit dependencies, passed as arguments or closures, over hidden globals or singletons.
+2. Package by feature. Organise code around domain concepts (`Order`, `Invoice`) rather than technical layers (`router`, `service`, `model`), so everything about invoices lives together.
 
-7. Push side effects (I/O, mutation) to the edges of the system and keep core logic effect-free where that's natural, but don't force purity where it adds ceremony — a few pragmatic side effects beat a maze of monadic plumbing.
+3. Composition over inheritance. Build behaviour from small functions, closures, and interfaces, using structural or duck typing where the language has it. Closures and modules encapsulate state; keep class hierarchies shallow.
 
-8. Rule out illegal states using the language's own type system rather than runtime checks alone (enums, sum types, pattern matching), and stop before it requires elaborate type-theory machinery.
+4. Explicit dependencies. Pass collaborators in as arguments or closures, so a function's signature shows everything it depends on and a test can substitute any of them. Hidden globals and singletons hide that information.
 
-9. Default to immutable data where language allows; it makes concurrent code far easier to reason about.
+5. SOLID, applied with functions and modules rather than classes:
+    - Single responsibility: each function or module has one reason to change.
+    - Open/closed: extend behaviour by passing in a function or adding a new variant, leaving working code unedited.
+    - Liskov substitution: every implementation of an interface honours its whole contract, including errors and edge cases.
+    - Interface segregation: keep interfaces small (one or two operations) and define them in the module that consumes them, not the one that implements them.
+    - Dependency inversion: core logic depends on interfaces it defines, and the I/O adapters at the edge implement them.
 
-10. Make "no value" explicit and checked as early as the language allows, rather than relying on null/undefined.
+6. Functional core, imperative shell. Keep business logic as pure functions over data, and do I/O and mutation in a thin outer layer that calls them. Accept a few pragmatic side effects in the core when purity would need monad-style plumbing.
 
-11. Define specific error types. Wrap errors with context as they propagate; handle them only at system boundaries, not deep inside business logic.
+7. Immutable by default. Return new values instead of mutating existing ones; immutable data makes concurrent code far easier to reason about.
+
+8. Make illegal states unrepresentable. Model states with the type system (enums, sum types, exhaustive pattern matching) so invalid combinations fail at compile time instead of relying on runtime checks alone. Represent "no value" explicitly (`Option`, `Maybe`, or strictly checked nullable types) and check it at the earliest point. Stop before this needs advanced type-level machinery.
+
+9. Specific errors, wrapped with context, handled at boundaries. Define an error type for each failure a caller can act on. Wrap errors with context as they propagate ("loading invoice 42: connection refused"). Handle them (log, retry, translate into a response) only at system boundaries such as HTTP handlers, CLI entry points, and job runners; business logic lets them propagate.
