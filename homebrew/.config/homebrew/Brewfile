@@ -19,6 +19,7 @@ brew "git-delta"
 brew "gnupg"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
+brew "just"
 # Simple terminal UI for git commands
 brew "lazygit"
 # General-purpose data compression with high compression ratio
