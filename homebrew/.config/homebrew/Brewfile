@@ -1,8 +1,6 @@
 tap "oven-sh/bun", trusted: true
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
-# Yet another cross-platform graphical process/system monitor
-brew "bottom"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
 brew "btop"
 # Modern, maintained replacement for ls
@@ -65,18 +63,15 @@ brew "wget"
 brew "yazi"
 # Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "yq"
-# General-purpose lossless data-compression library
-brew "zlib"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
 # Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
 brew "oven-sh/bun/bun"
-# Enable Windows-like alt-tab
-cask "alt-tab"
+# Brower
+cask "brave-origin"
+cask "claude"
 # Terminal-based AI coding assistant
 cask "claude-code"
-# OpenAI's coding agent that runs in your terminal
-cask "codex"
 cask "font-fira-code-nerd-font"
 cask "font-hack-nerd-font"
 cask "font-inconsolata-nerd-font"
@@ -89,7 +84,7 @@ cask "ghostty"
 cask "rectangle"
 # Virtualization tool
 cask "virtualbuddy"
+# Visual studio code
+cask "visual-studio-code"
 # Multiplayer code editor
 cask "zed"
-uv "atlassian-mcp-scout"
-npm "corepack"
