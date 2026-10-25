@@ -13,7 +13,7 @@ unalias help 2>/dev/null
 if (( $+commands[brew] )); then
   # Brewfile lives in the homebrew stow package. --global does not find it
   # through the stow symlink in every setup, so pass the path.
-  alias bruc='brew update && brew bundle --file="${XDG_CONFIG_HOME:-$HOME/.config}/homebrew/Brewfile" && brew cleanup'
+  alias bruc='brew update && brew bundle --file="${XDG_CONFIG_HOME:-$HOME/.config}/homebrew/Brewfile" && brew upgrade --yes && brew cleanup'
 fi
 
 if (( $+commands[btop] )); then
