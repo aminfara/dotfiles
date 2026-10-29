@@ -1,5 +1,8 @@
 {
   "trustedtaps": [
     "oven-sh/bun"
+  ],
+  "trustedformulae": [
+    "oven-sh/bun/bun"
   ]
 }

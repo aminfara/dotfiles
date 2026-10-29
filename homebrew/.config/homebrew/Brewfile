@@ -11,6 +11,8 @@ brew "fd"
 brew "fish"
 # Command-line fuzzy finder written in Go
 brew "fzf"
+# github cli
+brew "gh"
 # Distributed revision control system
 brew "git"
 # Syntax-highlighting pager for git and diff output
