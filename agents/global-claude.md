@@ -46,4 +46,4 @@ These rules apply to everything a person will read: your replies to me, and any 
 
 ## Programming
 
-Before you write, change, or fix any code or tests, load the `tdd-programming` skill and follow it. It holds the programming and testing principles together, and its first step decides whether the change needs tests at all.
+Before you write, change, or fix any code or tests, load the `orchestra:programming` skill and follow it. It holds the programming and testing principles together, and its first step decides whether the change needs tests at all.
