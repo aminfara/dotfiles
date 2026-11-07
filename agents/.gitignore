@@ -1,5 +1,5 @@
 skills/*
 !skills/.keep
 !skills/skill-linter
-!skills/tdd-programming
+!skills/programming
 !skills/writing-studio
