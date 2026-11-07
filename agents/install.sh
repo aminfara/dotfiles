@@ -5,7 +5,7 @@ set -euo pipefail
 
 src="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 dest="${CLAUDE_HOME:-$HOME/.claude}"
-skills=(programming writing-studio)
+skills=(programming skill-linter writing-studio)
 
 link() {
   local target="$1" name="$2"
