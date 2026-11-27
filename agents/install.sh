@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
-# Link the global Claude instructions and the dotfiles-owned skills into ~/.claude.
+# Link the global Claude instructions into ~/.claude. Skills live in the orchestra plugin.
 # Idempotent. Refuses to replace a real file or directory.
 set -euo pipefail
 
 src="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 dest="${CLAUDE_HOME:-$HOME/.claude}"
-skills=(programming skill-linter writing-studio)
 
 link() {
   local target="$1" name="$2"
@@ -17,10 +16,6 @@ link() {
   echo "linked: $name -> $target"
 }
 
-mkdir -p "$dest/skills"
 status=0
 link "$src/global-claude.md" "$dest/CLAUDE.md" || status=1
-for skill in "${skills[@]}"; do
-  link "$src/skills/$skill" "$dest/skills/$skill" || status=1
-done
 exit "$status"
